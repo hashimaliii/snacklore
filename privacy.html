@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snack Lore privacy policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.55 system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.6rem; } h2 { font-size: 1.15rem; margin-top: 1.8rem; }
+  table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #8884; padding: .4rem .5rem; text-align: left; vertical-align: top; }
+  .note { border-left: 4px solid #c60; padding: .2rem .8rem; }
+</style>
+</head>
+<body>
+<h1>Snack Lore privacy policy</h1>
+<p>Effective 13 October 2026. Snack Lore reads a food ingredient list from a photo or typed text and shows what official sources say about each ingredient.
+This page says what the app stores, where, and how long it is kept.</p>
+<p class="note">Contact for privacy questions: <a href="mailto:snacklore.app@gmail.com">snacklore.app@gmail.com</a></p>
+
+<h2>What the app handles</h2>
+<table>
+<tr><th>Data</th><th>Why</th><th>Where it is kept</th></tr>
+<tr><td>Email address and password</td><td>To create and open your account</td><td>Our hosting provider, Supabase. The password is stored as a hash, never as text. If you choose "Continue with Google" instead, Google tells the app your email address, name, picture and language; we never see your Google password.</td></tr>
+<tr><td>Name, first and last name, phone number, date of birth, country, profile picture, allergens you tick (all optional)</td><td>To personalise the app and mark ingredients on your list</td><td>Your account at Supabase, so a new phone shows the same name, allergens and picture. Your settings (places, photo reader, light or dark) are kept there too. When you change one of these the earlier value is kept in a restricted history that the app cannot read.</td></tr>
+<tr><td>Activity log: screens opened, settings changed, scans with counts and seconds, errors</td><td>To keep the app working and improve it</td><td>Supabase, linked to your account and a random device id. It never contains the photo, the ingredient text or a place.</td></tr>
+<tr><td>Photos of labels and the text read from them</td><td>To read and check the ingredients, and to keep your History</td><td>History photos (the photo of each scan you save) are kept on your phone and in your account at Supabase, in a private folder that only your account can add to; we can read it. With the "Online" reader only, the photo is also sent to our server function, which forwards it to OpenRouter and the model provider it uses, to read the text; that route does not store the photo itself.</td></tr>
+<tr><td>History: the scans you save, with their text, results and photos</td><td>So your History is the same on every phone you sign in on</td><td>Your phone, and your account at Supabase (the photos in a private folder that only your account can add to; we can read it). When you sign in on a new phone it shows the same History, photos included.</td></tr>
+<tr><td>Scans you remove from History</td><td>So that nothing you did is lost and we can fix what went wrong</td><td>Supabase, linked to your account: the text read, the results, the places, when it was saved and how it was removed. Its photo is kept too (see the photos row above).</td></tr>
+<tr><td>Reports you send ("Report a problem with this scan")</td><td>So we can find and fix what went wrong</td><td>Supabase, linked to your account: the kind of problem, your note, the text that was read from the photo and the ingredient names found. The photo is not part of the report. Visible to you and to us.</td></tr>
+<tr><td>Location (if you allow it)</td><td>To note where a scan was made, shown in your History</td><td>In that scan's History entry, which is kept in your account so a new phone shows the same History. You can refuse the permission; the app works the same.</td></tr>
+</table>
+
+<h2>Who else is involved</h2>
+<ul>
+<li><strong>Supabase</strong> hosts the account system, the ingredient database and the server functions.</li>
+<li><strong>OpenRouter</strong> and the provider of the Qwen vision model process a photo only when you choose the Online reader. Their own terms apply to what they do with it.</li>
+</ul>
+<p>We do not sell personal data and we do not show advertising.</p>
+
+<h2>How long your data is kept</h2>
+<ul>
+<li>Your account details, activity log and reports are kept for as long as we run the service. They are not removed when you stop using the app.</li>
+<li>A scan that is removed from History (one at a time, or with Delete all) is copied to our servers first: its text, results, places and photo are kept.</li>
+<li>Anything that is removed or replaced later is kept in a restricted archive that the app cannot read and that only we can open.</li>
+<li>Removing something in the app (a scan, all history, a picture, an allergen) only takes it out of your view. It stays in our database, as described above.</li>
+<li>Your phone keeps your History and your photos until you remove them or uninstall the app. The copies in your account stay as described above, and appear again if you sign in on a new phone.</li>
+</ul>
+
+<h2>Security</h2>
+<p>Connections to our servers use HTTPS. The app is not a place to store anything you would not want stored.</p>
+
+<h2>Children</h2>
+<p>Snack Lore is not directed at children under 13 and we do not knowingly collect their data.</p>
+
+<h2>Not advice</h2>
+<p>Snack Lore is not medical, allergy, legal or religious advice and not a safety check. Always read the printed label yourself.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the new version is published on this page with a new effective date.</p>
+</body>
+</html>
