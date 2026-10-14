@@ -1,0 +1,2 @@
+# Snacklore
+Homepage & Privacy policy
