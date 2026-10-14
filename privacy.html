@@ -3,23 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12392A">
 <title>Snack Lore privacy policy</title>
 <style>
-  :root { color-scheme: light dark; }
-  body { font: 16px/1.55 system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; }
-  h1 { font-size: 1.6rem; } h2 { font-size: 1.15rem; margin-top: 1.8rem; }
-  table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #8884; padding: .4rem .5rem; text-align: left; vertical-align: top; }
-  .note { border-left: 4px solid #c60; padding: .2rem .8rem; }
+  :root {
+    --bg:#F3F5F7; --card:#FFFFFF; --inset:#F7F9FA; --ink:#1B2733; --sub:#5B6B79; --line:#DDE3E8; --primary:#1B6B4A; --advisory:#B07A00;
+    --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0F1417; --card:#1A2127; --inset:#141A1F; --ink:#E8EDF1; --sub:#A3B1BD; --line:#2C363E; --primary:#4CC38A; --advisory:#E0A526;
+            --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35); }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:var(--primary); }
+  .wrap { max-width:50rem; margin:0 auto; padding:0 1.25rem; }
+  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  header.bar .wrap { display:flex; align-items:center; gap:.7rem; height:3.6rem; max-width:68rem; }
+  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; }
+  .brand svg { width:2rem; height:2rem; }
+  header.bar nav { margin-left:auto; font-size:.95rem; }
+  header.bar nav a { text-decoration:none; font-weight:500; }
+  main.doc { padding-top:1.6rem; padding-bottom:2rem; }
+  h1 { font-size:clamp(1.7rem, 4vw, 2.3rem); line-height:1.15; margin:.4rem 0 .8rem; letter-spacing:-.01em; }
+  h2 { font-size:1.2rem; margin:2rem 0 .6rem; }
+  p, li { color:var(--ink); }
+  ul { padding-left:1.2rem; }
+  li { margin:.3rem 0; }
+  .note { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--advisory); border-radius:14px; padding:.7rem 1rem; box-shadow:var(--shadow); }
+  .tablewrap { overflow-x:auto; border-radius:16px; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); }
+  table { border-collapse:collapse; width:100%; min-width:36rem; }
+  th, td { padding:.65rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+  th { background:var(--inset); font-size:.85rem; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; }
+  tr:last-child td { border-bottom:0; }
+  footer { border-top:1px solid var(--line); background:var(--card); padding:1.4rem 0 2rem; color:var(--sub); font-size:.92rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; }
 </style>
 </head>
 <body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="Snack Lore home">
+      <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Snack Lore
+    </a>
+    <nav><a href="./">Home</a></nav>
+  </div>
+</header>
+<main class="wrap doc">
 <h1>Snack Lore privacy policy</h1>
 <p>Effective 13 October 2026. Snack Lore reads a food ingredient list from a photo or typed text and shows what official sources say about each ingredient.
 This page says what the app stores, where, and how long it is kept.</p>
 <p class="note">Contact for privacy questions: <a href="mailto:snacklore.app@gmail.com">snacklore.app@gmail.com</a></p>
 
 <h2>What the app handles</h2>
-<table>
+<div class="tablewrap"><table>
 <tr><th>Data</th><th>Why</th><th>Where it is kept</th></tr>
 <tr><td>Email address and password</td><td>To create and open your account</td><td>Our hosting provider, Supabase. The password is stored as a hash, never as text. If you choose "Continue with Google" instead, Google tells the app your email address, name, picture and language; we never see your Google password.</td></tr>
 <tr><td>Name, first and last name, phone number, date of birth, country, profile picture, allergens you tick (all optional)</td><td>To personalise the app and mark ingredients on your list</td><td>Your account at Supabase, so a new phone shows the same name, allergens and picture. Your settings (places, photo reader, light or dark) are kept there too. When you change one of these the earlier value is kept in a restricted history that the app cannot read.</td></tr>
@@ -29,7 +67,7 @@ This page says what the app stores, where, and how long it is kept.</p>
 <tr><td>Scans you remove from History</td><td>So that nothing you did is lost and we can fix what went wrong</td><td>Supabase, linked to your account: the text read, the results, the places, when it was saved and how it was removed. Its photo is kept too (see the photos row above).</td></tr>
 <tr><td>Reports you send ("Report a problem with this scan")</td><td>So we can find and fix what went wrong</td><td>Supabase, linked to your account: the kind of problem, your note, the text that was read from the photo and the ingredient names found. The photo is not part of the report. Visible to you and to us.</td></tr>
 <tr><td>Location (if you allow it)</td><td>To note where a scan was made, shown in your History</td><td>In that scan's History entry, which is kept in your account so a new phone shows the same History. You can refuse the permission; the app works the same.</td></tr>
-</table>
+</table></div>
 
 <h2>Who else is involved</h2>
 <ul>
@@ -58,5 +96,13 @@ This page says what the app stores, where, and how long it is kept.</p>
 
 <h2>Changes</h2>
 <p>If this policy changes, the new version is published on this page with a new effective date.</p>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Snack Lore</span>
+    <a href="./">Home</a>
+    <a href="mailto:snacklore.app@gmail.com">snacklore.app@gmail.com</a>
+  </div>
+</footer>
 </body>
 </html>
