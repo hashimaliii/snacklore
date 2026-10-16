@@ -47,8 +47,10 @@
   tr:last-child td { border-bottom:0; }
   td:first-child { font-weight:600; }
   td { overflow-wrap:break-word; }      /* a word is never cut in the middle of a short column */
-  th:nth-child(1), td:nth-child(1) { width:27%; }
-  th:nth-child(2), td:nth-child(2) { width:23%; }
+  @media (min-width: 48.0625rem) {      /* column widths belong to the table layout only: in the card layout below, a cell must fill its card */
+    th:nth-child(1), td:nth-child(1) { width:27%; }
+    th:nth-child(2), td:nth-child(2) { width:23%; }
+  }
   footer { border-top:1px solid var(--line); background:var(--card); padding:1.4rem 0 calc(2rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
   footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; max-width:clamp(50rem, 66vw, 72rem); }
   footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
