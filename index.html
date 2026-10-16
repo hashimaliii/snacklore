@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Snack Lore: ingredient labels, checked against official sources</title>
 <meta name="description" content="Photograph an ingredient list. See what official sources in the US, EU, Great Britain and Canada say about each ingredient, with the reason.">
 <meta name="theme-color" content="#12392A">
@@ -17,6 +18,7 @@
     --flagged:#C62828; --future:#B35309; --advisory:#8F6400; --ok:#217A4A; --unverified:#5B6B79; --group:#5A57B0; --plain:#B8C2CB;
     --info-bg:#E4EFFB; --info-text:#1D4E89; --bad-bg:#FDECEA; --bad-text:#8E1F1F;
     --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
+    --gutter:max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -28,16 +30,23 @@
     }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; }
+  /* every size is in rem, so the page follows the reader's text size, and the base grows on large screens and televisions */
+  html { scroll-behavior:smooth; scroll-padding-top:4.5rem; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  @media (min-width: 90rem) { html { font-size:112.5%; } }
+  @media (min-width: 120rem) { html { font-size:131%; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } * { animation:none !important; transition:none !important; } }
+  body { margin:0; min-height:100vh; min-height:100dvh; background:var(--bg); color:var(--ink); font:1rem/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
   a { color:var(--primary); }
-  .wrap { max-width:68rem; margin:0 auto; padding:0 1.25rem; }
-  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
-  header.bar .wrap { display:flex; align-items:center; gap:.7rem; height:3.6rem; }
-  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; }
-  .brand svg { width:2rem; height:2rem; }
-  nav { margin-left:auto; display:flex; gap:1.1rem; font-size:.95rem; }
-  nav a { text-decoration:none; font-weight:500; }
+  a:focus-visible, .btn:focus-visible { outline:3px solid var(--primary); outline-offset:3px; border-radius:6px; }
+  svg { max-width:100%; }
+  .wrap { width:100%; max-width:clamp(68rem, 72vw, 88rem); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); }
+  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; padding-top:env(safe-area-inset-top); }
+  header.bar .wrap { display:flex; align-items:center; gap:.7rem; min-height:3.6rem; }
+  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; min-height:2.75rem; }
+  .brand svg { width:2rem; height:2rem; flex:none; }
+  nav { margin-left:auto; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:0 .35rem; font-size:.95rem; }
+  nav a { text-decoration:none; font-weight:500; display:inline-flex; align-items:center; min-height:2.75rem; padding:0 .6rem; border-radius:10px; }
+  nav a:hover { background:var(--inset); }
 
   .notice { display:none; margin:1.2rem 0 0; padding:1rem 1.1rem; border-radius:16px; border:1px solid var(--line); background:var(--info-bg); color:var(--info-text); box-shadow:var(--shadow); }
   .notice.show { display:flex; gap:.9rem; align-items:flex-start; }
@@ -46,78 +55,129 @@
   .notice.bad .tick { background:var(--flagged); }
   .notice h2 { margin:.05rem 0 .15rem; font-size:1.15rem; color:inherit; }
   .notice p { margin:.1rem 0; }
-  .btn { display:inline-block; border:0; border-radius:14px; padding:.8rem 1.25rem; font:600 1rem/1.2 inherit; text-decoration:none; cursor:pointer; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; min-height:2.9rem; border:0; border-radius:14px; padding:.7rem 1.25rem; font:600 1rem/1.2 inherit; text-decoration:none; cursor:pointer; text-align:center; }
   .btn.primary { background:var(--primary); color:var(--on-primary); }
   .btn.ghost { background:var(--card); color:var(--primary); border:1.5px solid var(--primary); }
   .btn.soft { background:var(--inset); color:var(--sub); border:1px solid var(--line); cursor:default; }
   .notice .btn { margin-top:.6rem; }
 
-  .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:2.5rem; align-items:center; padding:3rem 0 2.5rem; }
+  .hero { display:grid; grid-template-columns:minmax(0, 1.1fr) minmax(0, .9fr); gap:clamp(1.5rem, 4vw, 3.5rem); align-items:center; padding:clamp(1.8rem, 4vw, 3.5rem) 0 clamp(1.6rem, 3vw, 2.6rem); }
   .eyebrow { display:inline-block; font-size:.8rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:.25rem .7rem; }
-  h1 { font-size:clamp(1.9rem, 4.4vw, 2.9rem); line-height:1.12; margin:.8rem 0 .8rem; letter-spacing:-.01em; }
-  .lead { font-size:1.15rem; color:var(--sub); max-width:34rem; }
+  h1 { font-size:clamp(1.8rem, 1rem + 3.6vw, 3.2rem); line-height:1.12; margin:.8rem 0 .8rem; letter-spacing:-.01em; }
+  .lead { font-size:clamp(1.05rem, .95rem + .5vw, 1.3rem); color:var(--sub); max-width:36rem; }
   .cta { display:flex; flex-wrap:wrap; gap:.7rem; margin:1.4rem 0 .9rem; }
   .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
   .chip { background:var(--card); color:var(--primary); font-weight:700; border-radius:999px; padding:.4rem .95rem; box-shadow:var(--shadow); }
   .chip.on { background:var(--primary); color:var(--on-primary); }
   .fine { color:var(--sub); font-size:.9rem; }
 
-  /* the phone: drawn in HTML and CSS with the app's own colours and wording */
-  .phone { width:min(100%, 19.5rem); margin:0 auto; background:#0b1114; border-radius:2.4rem; padding:.7rem; box-shadow:0 18px 50px rgba(10,30,20,.28); }
-  .screen { background:var(--bg); border-radius:1.8rem; overflow:hidden; font-size:.82rem; line-height:1.4; }
-  .appbar { background:var(--card); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:.7rem .8rem; }
+  /* the phones: drawn in HTML and CSS with the app's own colours and wording */
+  .phone { width:min(100%, 20rem); margin:0 auto; background:#0b1114; border-radius:2.4rem; padding:.7rem; box-shadow:0 18px 50px rgba(10,30,20,.28); }
+  .screen { background:var(--bg); border-radius:1.8rem; overflow:hidden; font-size:.82rem; line-height:1.4; color:var(--ink); }
+  .appbar { background:var(--card); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:.5rem; padding:.7rem .8rem; }
   .appbar .t { font-weight:700; font-size:1rem; }
-  .appbar svg { width:1.5rem; height:1.5rem; }
-  .avatar { width:1.5rem; height:1.5rem; border-radius:50%; background:var(--primary); color:var(--on-primary); display:grid; place-items:center; font-weight:700; font-size:.75rem; }
+  .appbar .sp { margin-left:auto; display:flex; gap:.7rem; align-items:center; }
+  .appbar svg { width:1.35rem; height:1.35rem; flex:none; }
+  .appbar svg.ic { fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .avatar { width:1.5rem; height:1.5rem; border-radius:50%; background:var(--primary); color:var(--on-primary); display:grid; place-items:center; font-weight:700; font-size:.75rem; margin-left:auto; }
   .screen .body { padding:.7rem .7rem .9rem; }
   .screen h3 { margin:.2rem .2rem .5rem; font-size:.95rem; }
+  .hi { font-size:1.3rem; font-weight:700; margin:.1rem .2rem 0; }
+  .hint { color:var(--sub); margin:0 .2rem .6rem; }
   .mcard { background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:.7rem .75rem; margin-bottom:.55rem; }
-  .big { font-size:1.05rem; font-weight:700; }
-  .bar3 { display:flex; height:.5rem; border-radius:999px; overflow:hidden; margin:.5rem 0 .4rem; }
-  .bar3 i { display:block; }
-  .count { color:var(--sub); font-size:.78rem; }
+  .mcard .line { display:flex; gap:.6rem; align-items:center; justify-content:space-between; }
+  .big { font-size:1.02rem; font-weight:700; }
+  .count { color:var(--sub); font-size:.78rem; margin-top:.15rem; }
+  .pill { flex:none; border:1.5px solid var(--primary); color:var(--primary); border-radius:999px; padding:.2rem .7rem; font-weight:700; font-size:.78rem; background:var(--card); }
+  .pill.on { background:var(--primary); color:var(--on-primary); }
+  .verify { background:var(--info-bg); color:var(--info-text); border-radius:14px; padding:.6rem .75rem; margin-bottom:.55rem; }
+  .verify b { display:block; }
+  .head { display:flex; align-items:center; justify-content:space-between; font-weight:700; margin:.7rem .2rem .4rem; }
+  .head span { color:var(--sub); font-weight:400; }
   .row { display:flex; gap:.6rem; background:var(--card); border-radius:12px; box-shadow:var(--shadow); margin-bottom:.45rem; overflow:hidden; }
   .row b.edge { flex:none; width:.3rem; }
-  .row .in { padding:.5rem .5rem .5rem 0; flex:1; }
+  .row .in { padding:.5rem .5rem .5rem 0; flex:1; min-width:0; }
   .row .nm { font-weight:600; }
   .row .st { font-size:.78rem; font-weight:700; }
   .row .pl { font-size:.74rem; color:var(--sub); }
-  .tag { display:inline-block; font-size:.62rem; color:var(--sub); text-align:center; margin-top:.5rem; width:100%; }
+  .scan { display:flex; align-items:center; gap:.65rem; background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:.55rem .65rem; margin-bottom:.5rem; }
+  .thumb { flex:none; width:2.7rem; height:2.7rem; border-radius:.6rem; background:linear-gradient(135deg, var(--line), var(--inset)); position:relative; overflow:hidden; }
+  .thumb::before { content:""; position:absolute; left:.45rem; right:.45rem; top:.5rem; height:.12rem; background:var(--sub); opacity:.45; box-shadow:0 .4rem 0 var(--sub), 0 .8rem 0 var(--sub), 0 1.2rem 0 var(--sub); }
+  .scan .tx { flex:1; min-width:0; }
+  .scan .d { font-weight:700; }
+  .scan .n { color:var(--sub); font-size:.78rem; }
+  .scan .n.look { color:var(--advisory); font-weight:700; }
+  .scan svg { width:1.3rem; height:1.3rem; flex:none; fill:none; stroke:var(--sub); stroke-width:2; stroke-linejoin:round; }
+  .scan svg.on { fill:var(--primary); stroke:var(--primary); }
+  .search { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:.6rem .8rem; color:var(--sub); margin-bottom:.5rem; }
+  .btns { display:grid; gap:.5rem; margin-top:.8rem; }
+  .mbtn { text-align:center; border-radius:14px; padding:.7rem; font-weight:700; border:1.5px solid var(--primary); color:var(--primary); background:var(--card); box-shadow:var(--shadow); }
+  .mbtn.fill { background:var(--primary); color:var(--on-primary); }
+  .btn2 { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
+  .tag { display:block; font-size:.66rem; color:var(--sub); text-align:center; margin-top:.5rem; }
+  figure { margin:0; }
+  figcaption { text-align:center; margin-top:.9rem; color:var(--sub); font-size:.95rem; }
+  figcaption b { display:block; color:var(--ink); font-size:1.05rem; }
 
-  section.block { padding:2.2rem 0; }
-  section.block > h2 { font-size:1.6rem; margin:0 0 .4rem; letter-spacing:-.005em; }
-  section.block > .sub { color:var(--sub); margin:0 0 1.4rem; max-width:40rem; }
-  .grid3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; }
-  .grid2 { display:grid; grid-template-columns:repeat(2, 1fr); gap:1rem; }
+  section.block { padding:clamp(1.6rem, 3vw, 2.6rem) 0; }
+  section.block > h2 { font-size:clamp(1.4rem, 1.1rem + 1.2vw, 2rem); margin:0 0 .4rem; letter-spacing:-.005em; }
+  section.block > .sub { color:var(--sub); margin:0 0 1.4rem; max-width:42rem; }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap:1rem; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap:1rem; }
+  .shots { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap:clamp(1.5rem, 4vw, 3rem); align-items:start; }
   .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:1.15rem 1.2rem; box-shadow:var(--shadow); }
   .card h3 { margin:.3rem 0 .3rem; font-size:1.08rem; }
   .card p { margin:0; color:var(--sub); }
   .num { width:2rem; height:2rem; border-radius:50%; background:var(--brand); color:var(--lime); display:grid; place-items:center; font-weight:800; }
-  .states { display:grid; grid-template-columns:repeat(2, 1fr); gap:.7rem 1rem; }
-  .state { display:flex; gap:.75rem; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:.8rem .9rem; }
-  .state i { flex:none; width:.35rem; border-radius:99px; }
+  .states { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap:.7rem 1rem; }
+  .state { display:flex; gap:.8rem; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:.8rem .9rem; }
+  .state svg { flex:none; width:1.6rem; height:1.6rem; margin-top:.1rem; }
   .state b { display:block; }
   .state span { color:var(--sub); font-size:.93rem; }
   .note { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--advisory); border-radius:14px; padding:1rem 1.2rem; box-shadow:var(--shadow); }
   .note b { color:var(--ink); }
   ul.plain { margin:.2rem 0 0; padding-left:1.2rem; color:var(--sub); }
-  footer { border-top:1px solid var(--line); background:var(--card); margin-top:2rem; padding:1.6rem 0 2.2rem; color:var(--sub); font-size:.92rem; }
-  footer .wrap { display:flex; flex-wrap:wrap; gap:.6rem 1.4rem; align-items:center; }
+  footer { border-top:1px solid var(--line); background:var(--card); margin-top:2rem; padding:1.4rem 0 calc(2rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; align-items:center; }
+  footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
   footer .sp { margin-left:auto; }
 
-  @media (max-width: 30rem) {
-    nav a:not(:last-child) { display:none; }      /* on a small phone only Privacy stays in the bar */
-    .wrap { padding:0 1rem; }
-    .cta .btn { width:100%; text-align:center; }
-  }
   @media (max-width: 52rem) {
-    .hero { grid-template-columns:1fr; padding-top:1.8rem; gap:2rem; }
-    .grid3, .grid2, .states { grid-template-columns:1fr; }
+    .hero { grid-template-columns:minmax(0, 1fr); }
     footer .sp { margin-left:0; }
   }
+  @media (max-width: 30rem) {
+    :root { --gutter:max(1rem, env(safe-area-inset-left), env(safe-area-inset-right)); }
+    nav a { padding:0 .45rem; font-size:.9rem; }
+    nav a[href="#how"] { display:none; }      /* on a small phone the bar keeps Screens and Privacy */
+    .cta .btn { width:100%; }
+    .brand { font-size:1.05rem; }
+  }
+  @media (max-width: 20rem) {
+    nav a[href="#screens"] { display:none; }
+    h1 { font-size:1.6rem; }
+  }
+  @media (max-height: 30rem) and (orientation: landscape) {      /* a phone on its side: the bar must not eat the screen */
+    header.bar { position:static; }
+    html { scroll-padding-top:1rem; }
+  }
+  @media print { header.bar, .notice, .cta, .chips, .phone, .shots { display:none !important; } body { background:#fff; color:#000; } .card, .state, .note { box-shadow:none; } }
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-flagged" viewBox="0 0 24 24"><path d="M12 3 2 21h20z" fill="currentColor"/><path d="M12 10v5M12 18.2v.01" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-future" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-advisory" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7.4v.01" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-limited" viewBox="0 0 24 24"><path d="M3 7h10M17 7h4M3 17h4M11 17h10M13 4v6M7 14v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8 12.5 3 3 5-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-unverified" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8M12 17.2v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-group" viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h9.8a1.5 1.5 0 0 1 1.1.5l3.6 4.2a1.5 1.5 0 0 1 0 2l-3.6 4.2a1.5 1.5 0 0 1-1.1.5H5.5A1.5 1.5 0 0 1 4 16.9z" fill="currentColor"/></symbol>
+    <symbol id="i-plain" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/></symbol>
+  </defs>
+</svg>
 
 <header class="bar">
   <div class="wrap">
@@ -125,8 +185,9 @@
       <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Snack Lore
     </a>
-    <nav>
+    <nav aria-label="Pages">
       <a href="#how">How it works</a>
+      <a href="#screens">Screens</a>
       <a href="privacy.html">Privacy</a>
     </nav>
   </div>
@@ -160,27 +221,30 @@
     </div>
 
     <div>
-      <div class="phone" role="img" aria-label="An example result in the app: six ingredients, each with the answer of each place">
-        <div class="screen">
+      <div class="phone" role="img" aria-label="An example result in the app: a headline saying how many ingredients need a look, a reminder to verify the ingredients and codes against the list, the allergens the label names, and the ingredients that need a look with each place's answer">
+        <div class="screen" aria-hidden="true">
           <div class="appbar">
-            <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/></svg>
-            <span class="t">Snack Lore</span>
-            <span class="avatar">S</span>
+            <svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+            <span class="t">Result</span>
+            <span class="sp">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg>
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4M8 13l8 4"/></svg>
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
+            </span>
           </div>
           <div class="body">
-            <h3>Result</h3>
             <div class="mcard">
-              <div class="big">6 ingredients read</div>
-              <div class="bar3">
-                <i style="width:17%;background:var(--future)"></i><i style="width:17%;background:var(--advisory)"></i><i style="width:17%;background:var(--ok)"></i><i style="width:17%;background:var(--plain)"></i><i style="width:16%;background:var(--group)"></i><i style="width:16%;background:var(--unverified)"></i>
-              </div>
-              <div class="count">4 checked against the database &middot; 1 named only as a group &middot; 1 could not be verified</div>
+              <div class="big">2 ingredients need a look in the European Union</div>
+              <div class="count">27 ingredients read &middot; 5 could not be verified</div>
+              <div class="count">Checked in European Union &middot; United States &middot; Great Britain &middot; Canada</div>
             </div>
-            <div class="row"><b class="edge" style="background:var(--future)"></b><div class="in"><div class="nm">Red No. 3</div><div class="st" style="color:var(--future)">Flagged (future)</div><div class="pl">US: still legal today, revocation takes effect 15 Jan 2027</div></div></div>
-            <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Titanium Dioxide E171</div><div class="st" style="color:var(--advisory)">Limited use</div><div class="pl">US: limited use &middot; EU: flagged</div></div></div>
-            <div class="row"><b class="edge" style="background:var(--ok)"></b><div class="in"><div class="nm">Citric acid E330</div><div class="st" style="color:var(--ok)">No flags found</div><div class="pl">Absent from the loaded sources' flags</div></div></div>
-            <div class="row"><b class="edge" style="background:var(--group)"></b><div class="in"><div class="nm">Natural flavourings</div><div class="st" style="color:var(--group)">Named as a group</div><div class="pl">No substance named, nothing specific to check</div></div></div>
-            <div class="tag">Illustration of a result screen</div>
+            <div class="verify"><b>Please verify all the ingredients and codes against your ingredient list.</b> If anything does not match, correct it with Edit text.</div>
+            <div class="mcard"><div class="line"><b>Allergens the label names</b></div><div class="count">In the ingredients: Milk, Soybeans &middot; Stated by the label: contains milk, soy</div></div>
+            <div class="head">Needs a look (2) <span>&#9652;</span></div>
+            <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Calcium phosphate</div><div class="st" style="color:var(--advisory)">Advisory</div><div class="pl">Under review in the European Union. This is not a ban.</div><div class="pl">United States, Great Britain: No flags found</div></div></div>
+            <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Dipotassium phosphate</div><div class="st" style="color:var(--advisory)">Advisory</div><div class="pl">Under review in the European Union. This is not a ban.</div></div></div>
+            <div class="head">Couldn't verify (5) <span>&#9662;</span></div>
+            <span class="tag">Illustration of a result screen</span>
           </div>
         </div>
       </div>
@@ -192,23 +256,68 @@
     <p class="sub">The text is read from your photo on your phone or, with the Online reader, by our reading service; you choose on the home screen. The answers come from a database of regulatory facts that the app keeps up to date, never from a guess.</p>
     <div class="grid3">
       <div class="card"><div class="num">1</div><h3>Photograph the list</h3><p>Scan the label, choose a photo, or type the ingredients. You can correct the text that was read before it is checked.</p></div>
-      <div class="card"><div class="num">2</div><h3>Every ingredient is looked up</h3><p>Names, E numbers and spelling variants are matched to official records for each place you chose.</p></div>
+      <div class="card"><div class="num">2</div><h3>Every ingredient is looked up</h3><p>Names, E numbers and spelling variants are matched to official records for each place you chose. An ingredient that appears twice is checked once.</p></div>
       <div class="card"><div class="num">3</div><h3>Read each place's answer</h3><p>Each answer carries its reason. Places are shown side by side, never merged into one.</p></div>
     </div>
   </section>
 
+  <section class="block" id="screens">
+    <h2>The screens you will use</h2>
+    <p class="sub">Start from Home, read the answer on the result screen, and find every scan again in History. Each screen is drawn here with the app's own wording.</p>
+    <div class="shots">
+      <figure>
+        <div class="phone" role="img" aria-label="The Home screen: a greeting, which places a scan will check with a Change button, the recent scans, and three buttons to scan a label, choose a photo or type the ingredients">
+          <div class="screen" aria-hidden="true">
+            <div class="appbar"><svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="t">Snack Lore</span><span class="avatar">S</span></div>
+            <div class="body">
+              <div class="hi">Hi, Sam</div>
+              <div class="hint">Photograph an ingredient list.</div>
+              <div class="mcard"><div class="line"><div><b>Checking United States, Great Britain, Canada, European Union</b><div class="count">Photo reader: Online &middot; Official sources, up to 16 Oct 2026</div></div><span class="pill">Change</span></div></div>
+              <div class="head">Recent scans <span class="pill">See all</span></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="btns"><div class="mbtn fill">Scan a label</div><div class="btn2"><div class="mbtn">Choose a photo</div><div class="mbtn">Type or paste</div></div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Home</b>What a scan checks, your newest scans, one big button.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone" role="img" aria-label="The History screen: a search box, Favourites and Outdated filters, a line saying how many scans are saved and that holding a scan selects it, and the saved scans">
+          <div class="screen" aria-hidden="true">
+            <div class="appbar">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+              <span class="t">History</span>
+              <span class="sp"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></span>
+            </div>
+            <div class="body">
+              <div class="search">Search your scans</div>
+              <div style="display:flex;gap:.45rem;margin-bottom:.5rem"><span class="pill">Favourites</span><span class="pill">Outdated</span></div>
+              <div class="hint">17 saved scans, newest first. Hold a scan to select it.</div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:22</div><div class="n">4 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:12</div><div class="n">13 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>History</b>Search, star favourites, hold a scan to select and delete several.</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="block">
-    <h2>Honest answers, in plain words</h2>
-    <p class="sub">Eight states, each with a fixed meaning. The colour is not a verdict; the words are.</p>
+    <h2>What the results mean</h2>
+    <p class="sub">Eight states, each with a fixed meaning. The colour is not a verdict; the words and the shape are.</p>
     <div class="states">
-      <div class="state"><i style="background:var(--flagged)"></i><div><b style="color:var(--flagged)">Flagged</b><span>A source lists the ingredient as not authorised or prohibited for food in that place.</span></div></div>
-      <div class="state"><i style="background:var(--future)"></i><div><b style="color:var(--future)">Flagged (future)</b><span>Still legal today, with a revocation that takes effect on a stated date.</span></div></div>
-      <div class="state"><i style="background:var(--advisory)"></i><div><b style="color:var(--advisory)">Advisory</b><span>A source has the ingredient under review. This is not a ban.</span></div></div>
-      <div class="state"><i style="background:var(--advisory)"></i><div><b style="color:var(--advisory)">Limited use</b><span>Listed with conditions, or only provisionally.</span></div></div>
-      <div class="state"><i style="background:var(--ok)"></i><div><b style="color:var(--ok)">No flags found</b><span>Nothing to flag in the loaded sources for that place. Absence of a flag is not a safety finding.</span></div></div>
-      <div class="state"><i style="background:var(--unverified)"></i><div><b style="color:var(--unverified)">Couldn't verify</b><span>The app tried and could not decide: an unknown name, or no record for that place.</span></div></div>
-      <div class="state"><i style="background:var(--group)"></i><div><b style="color:var(--group)">Named as a group</b><span>The label gave a class word such as "flavourings" or "spices" and no substance.</span></div></div>
-      <div class="state"><i style="background:var(--plain)"></i><div><b style="color:var(--sub)">Plain food</b><span>An ordinary food such as water, sugar or wheat flour, with nothing regulatory to check.</span></div></div>
+      <div class="state" style="color:var(--flagged)"><svg aria-hidden="true"><use href="#i-flagged"/></svg><div><b>Flagged</b><span>Not allowed in food in that place.</span></div></div>
+      <div class="state" style="color:var(--future)"><svg aria-hidden="true"><use href="#i-future"/></svg><div><b>Flagged (future)</b><span>Still allowed today. A rule changes on a set date.</span></div></div>
+      <div class="state" style="color:var(--advisory)"><svg aria-hidden="true"><use href="#i-advisory"/></svg><div><b>Advisory</b><span>Under review. This is not a ban.</span></div></div>
+      <div class="state" style="color:var(--advisory)"><svg aria-hidden="true"><use href="#i-limited"/></svg><div><b>Limited use</b><span>Allowed, with conditions.</span></div></div>
+      <div class="state" style="color:var(--ok)"><svg aria-hidden="true"><use href="#i-none"/></svg><div><b>No flags found</b><span>Nothing to flag in the rules we hold. Absence of a flag is not a safety finding.</span></div></div>
+      <div class="state" style="color:var(--unverified)"><svg aria-hidden="true"><use href="#i-unverified"/></svg><div><b>Couldn't verify</b><span>We could not decide. A misread word is the usual cause. Fix it and check again.</span></div></div>
+      <div class="state" style="color:var(--group)"><svg aria-hidden="true"><use href="#i-group"/></svg><div><b>Named as a group</b><span>A class word such as flavours, so there is nothing specific to check.</span></div></div>
+      <div class="state" style="color:var(--plain)"><svg aria-hidden="true"><use href="#i-plain"/></svg><div><b style="color:var(--sub)">Plain food</b><span>An ordinary food, not an additive.</span></div></div>
     </div>
   </section>
 
@@ -220,7 +329,7 @@
       </div>
       <div class="card">
         <h3>Your History, on every phone</h3>
-        <p>Scans are saved with their photo and place. Sign in with your email or with Google on a new phone and your History, allergens and settings are there. Removing something only takes it out of your view. Scans made without a connection are sent when it returns.</p>
+        <p>Scans are saved with their photo and place. Sign in with your email or with Google on a new phone and your History, allergens and settings are there. Removing something only takes it out of your view; hold a scan in History to select several. Scans made without a connection are sent when it returns.</p>
       </div>
     </div>
   </section>
@@ -231,7 +340,7 @@
   </section>
 
   <section class="block">
-    <p class="note"><b>What Snack Lore does not do.</b> It is not a safety check, an allergy test or a certification, and it says nothing about religious or dietary status. "No flags found" means the loaded sources have nothing to flag, nothing more. Always read the printed label yourself, especially for an allergy.</p>
+    <p class="note"><b>What Snack Lore does not do.</b> It is not a safety check, an allergy test or a certification, and it says nothing about religious or dietary status. "No flags found" means the loaded sources have nothing to flag, nothing more. Always read the printed label yourself, especially for an allergy.
   </section>
 </main>
 

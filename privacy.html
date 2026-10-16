@@ -2,42 +2,83 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#12392A">
 <title>Snack Lore privacy policy</title>
 <style>
   :root {
     --bg:#F3F5F7; --card:#FFFFFF; --inset:#F7F9FA; --ink:#1B2733; --sub:#5B6B79; --line:#DDE3E8; --primary:#1B6B4A; --advisory:#8F6400;
     --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
+    --gutter:max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
   }
   @media (prefers-color-scheme: dark) {
     :root { --bg:#0F1417; --card:#1A2127; --inset:#141A1F; --ink:#E8EDF1; --sub:#A3B1BD; --line:#2C363E; --primary:#4CC38A; --advisory:#E0A526;
             --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35); }
   }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; }
+  /* every size is in rem, so the page follows the reader's text size, and the base grows on large screens and televisions */
+  html { scroll-padding-top:4.5rem; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  @media (min-width: 90rem) { html { font-size:112.5%; } }
+  @media (min-width: 120rem) { html { font-size:131%; } }
+  body { margin:0; min-height:100vh; min-height:100dvh; background:var(--bg); color:var(--ink); font:1rem/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
   a { color:var(--primary); }
-  .wrap { max-width:50rem; margin:0 auto; padding:0 1.25rem; }
-  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
-  header.bar .wrap { display:flex; align-items:center; gap:.7rem; height:3.6rem; max-width:68rem; }
-  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; }
-  .brand svg { width:2rem; height:2rem; }
+  a:focus-visible { outline:3px solid var(--primary); outline-offset:3px; border-radius:6px; }
+  svg { max-width:100%; }
+  .wrap { width:100%; max-width:clamp(50rem, 66vw, 72rem); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); }
+  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; padding-top:env(safe-area-inset-top); }
+  header.bar .wrap { display:flex; align-items:center; gap:.7rem; min-height:3.6rem; max-width:clamp(68rem, 72vw, 88rem); }
+  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; min-height:2.75rem; }
+  .brand svg { width:2rem; height:2rem; flex:none; }
   header.bar nav { margin-left:auto; font-size:.95rem; }
-  header.bar nav a { text-decoration:none; font-weight:500; }
+  header.bar nav a { text-decoration:none; font-weight:500; display:inline-flex; align-items:center; min-height:2.75rem; padding:0 .6rem; border-radius:10px; }
+  header.bar nav a:hover { background:var(--inset); }
   main.doc { padding-top:1.6rem; padding-bottom:2rem; }
-  h1 { font-size:clamp(1.7rem, 4vw, 2.3rem); line-height:1.15; margin:.4rem 0 .8rem; letter-spacing:-.01em; }
-  h2 { font-size:1.2rem; margin:2rem 0 .6rem; }
+  h1 { font-size:clamp(1.7rem, 1.2rem + 2vw, 2.4rem); line-height:1.15; margin:.4rem 0 .8rem; letter-spacing:-.01em; }
+  h2 { font-size:clamp(1.15rem, 1.05rem + .5vw, 1.4rem); margin:2rem 0 .6rem; }
   p, li { color:var(--ink); }
   ul { padding-left:1.2rem; }
   li { margin:.3rem 0; }
   .note { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--advisory); border-radius:14px; padding:.7rem 1rem; box-shadow:var(--shadow); }
-  .tablewrap { overflow-x:auto; border-radius:16px; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); }
-  table { border-collapse:collapse; width:100%; min-width:36rem; }
+  .tablewrap { border-radius:16px; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; }
   th, td { padding:.65rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
   th { background:var(--inset); font-size:.85rem; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; }
   tr:last-child td { border-bottom:0; }
-  footer { border-top:1px solid var(--line); background:var(--card); padding:1.4rem 0 2rem; color:var(--sub); font-size:.92rem; }
-  footer .wrap { display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; }
+  td:first-child { font-weight:600; }
+  td { overflow-wrap:break-word; }      /* a word is never cut in the middle of a short column */
+  th:nth-child(1), td:nth-child(1) { width:27%; }
+  th:nth-child(2), td:nth-child(2) { width:23%; }
+  footer { border-top:1px solid var(--line); background:var(--card); padding:1.4rem 0 calc(2rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; max-width:clamp(50rem, 66vw, 72rem); }
+  footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
+
+  /* on a phone or a narrow window each row of the table becomes a card, read top to bottom, with the column name above each part: nothing scrolls sideways */
+  @media (max-width: 48rem) {
+    .tablewrap { overflow:visible; background:none; border:0; box-shadow:none; border-radius:0; }
+    table, tbody, tr, td { display:block; width:100%; }
+    tr.hd, tr.hd th { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }      /* the header row stays for screen readers */
+    tr { background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); margin:0 0 .8rem; padding:.3rem 0; }
+    td { border-bottom:0; padding:.45rem .9rem; }
+    td::before { content:attr(data-label); display:block; font-size:.74rem; font-weight:700; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.1rem; }
+    td:first-child { font-size:1.02rem; }
+  }
+  @media (max-width: 30rem) {
+    :root { --gutter:max(1rem, env(safe-area-inset-left), env(safe-area-inset-right)); }
+    header.bar nav a { padding:0 .45rem; }
+    .brand { font-size:1.05rem; }
+  }
+  @media (max-height: 30rem) and (orientation: landscape) {      /* a phone on its side: the bar must not eat the screen */
+    header.bar { position:static; }
+    html { scroll-padding-top:1rem; }
+  }
+  @media print {
+    header.bar, footer nav { display:none; }
+    body { background:#fff; color:#000; }
+    .tablewrap, tr, .note { box-shadow:none; }
+    tr { break-inside:avoid; }
+    a { color:#000; text-decoration:underline; }
+  }
 </style>
 </head>
 <body>
@@ -58,16 +99,16 @@ This page says what the app stores, where, and how long it is kept.</p>
 
 <h2>What the app handles</h2>
 <div class="tablewrap"><table>
-<tr><th>Data</th><th>Why</th><th>Where it is kept</th></tr>
-<tr><td>Email address and password</td><td>To create and open your account</td><td>Our hosting provider, Supabase. The password is stored as a hash, never as text. If you choose "Continue with Google" instead, Google tells the app your email address, name, picture and language; we never see your Google password.</td></tr>
-<tr><td>First, middle and last name, phone number (with its country code), date of birth, country, gender, profile picture, allergens you tick (all optional)</td><td>To personalise the app and mark ingredients on your list</td><td>Your account at Supabase, so a new phone shows the same name, allergens and picture. Your settings (places, photo reader, light or dark) are kept there too. When you change one of these the earlier value is kept in a restricted history that the app cannot read.</td></tr>
-<tr><td>Activity log: every tap (the name of the button or item and the screen), screens opened, settings changed, searches in your History, stars, scans with counts and seconds, errors</td><td>To keep the app working and improve it</td><td>Supabase, linked to your account and a random device id. It never contains the photo, the full ingredient list, a place, a password or what you type into a field (a word you search for in History is logged). The name of an ingredient you tap on a result is part of the tap.</td></tr>
-<tr><td>Photos of labels and the text read from them</td><td>To read and check the ingredients, and to keep your History</td><td>History photos (the photo of each scan you save) are kept on your phone and in your account at Supabase, in a private folder that only your account can add to; we can read it. The "Online" photo reader is selected by default: with it the photo is also sent to our server function, which forwards it to OpenRouter and the model provider it uses, to read the text; that route does not store the photo itself. Choose "On device" on the home screen and the photo is read on your phone only.</td></tr>
-<tr><td>History: the scans you save, with their text, results and photos</td><td>So your History is the same on every phone you sign in on</td><td>Your phone, and your account at Supabase (the photos in a private folder that only your account can add to; we can read it). When you sign in on a new phone it shows the same History, photos included. The app shows your newest 100 scans; older scans stay in your account.</td></tr>
-<tr><td>Anything made while the phone has no connection (scans, photos, the activity log)</td><td>So nothing is lost and your account matches your phone</td><td>On your phone until the connection returns, then sent to your account at Supabase automatically, also when the app is closed. A scan's photo stays on your phone until it has reached your account.</td></tr>
-<tr><td>Scans you remove from History</td><td>So that nothing you did is lost and we can fix what went wrong</td><td>Supabase, linked to your account: the scan stays in your account, marked with the time it was removed (the text read, the results, the places, when it was saved). Its photo is kept too (see the photos row above).</td></tr>
-<tr><td>Reports you send ("Report a problem with this scan")</td><td>So we can find and fix what went wrong</td><td>Supabase, linked to your account: the kind of problem, your note, the text that was read from the photo and the ingredient names found. The photo is not part of the report. Visible to you and to us.</td></tr>
-<tr><td>Location (if you allow it)</td><td>To note where a scan was made, shown in your History</td><td>In that scan's History entry, which is kept in your account so a new phone shows the same History. You can refuse the permission; the app works the same.</td></tr>
+<tr class="hd"><th>Data</th><th>Why</th><th>Where it is kept</th></tr>
+<tr><td data-label="Data">Email address and password</td><td data-label="Why">To create and open your account</td><td data-label="Where it is kept">Our hosting provider, Supabase. The password is stored as a hash, never as text. If you choose "Continue with Google" instead, Google tells the app your email address, name, picture and language; we never see your Google password.</td></tr>
+<tr><td data-label="Data">First, middle and last name, phone number (with its country code), date of birth, country, gender, profile picture, allergens you tick (all optional)</td><td data-label="Why">To personalise the app and mark ingredients on your list</td><td data-label="Where it is kept">Your account at Supabase, so a new phone shows the same name, allergens and picture. Your settings (places, photo reader, light or dark) are kept there too. When you change one of these the earlier value is kept in a restricted history that the app cannot read.</td></tr>
+<tr><td data-label="Data">Activity log: every tap (the name of the button or item and the screen), screens opened, settings changed, searches in your History, stars, scans with counts and seconds, errors</td><td data-label="Why">To keep the app working and improve it</td><td data-label="Where it is kept">Supabase, linked to your account and a random device id. It never contains the photo, the full ingredient list, a place, a password or what you type into a field (a word you search for in History is logged). The name of an ingredient you tap on a result is part of the tap.</td></tr>
+<tr><td data-label="Data">Photos of labels and the text read from them</td><td data-label="Why">To read and check the ingredients, and to keep your History</td><td data-label="Where it is kept">History photos (the photo of each scan you save) are kept on your phone and in your account at Supabase, in a private folder that only your account can add to; we can read it. The "Online" photo reader is selected by default: with it the photo is also sent to our server function, which forwards it to OpenRouter and the model provider it uses, to read the text; that route does not store the photo itself. Choose "On device" on the home screen and the photo is read on your phone only.</td></tr>
+<tr><td data-label="Data">History: the scans you save, with their text, results and photos</td><td data-label="Why">So your History is the same on every phone you sign in on</td><td data-label="Where it is kept">Your phone, and your account at Supabase (the photos in a private folder that only your account can add to; we can read it). When you sign in on a new phone it shows the same History, photos included. The app shows your newest 100 scans; older scans stay in your account.</td></tr>
+<tr><td data-label="Data">Anything made while the phone has no connection (scans, photos, the activity log)</td><td data-label="Why">So nothing is lost and your account matches your phone</td><td data-label="Where it is kept">On your phone until the connection returns, then sent to your account at Supabase automatically, also when the app is closed. A scan's photo stays on your phone until it has reached your account.</td></tr>
+<tr><td data-label="Data">Scans you remove from History</td><td data-label="Why">So that nothing you did is lost and we can fix what went wrong</td><td data-label="Where it is kept">Supabase, linked to your account: the scan stays in your account, marked with the time it was removed (the text read, the results, the places, when it was saved). Its photo is kept too (see the photos row above).</td></tr>
+<tr><td data-label="Data">Reports you send ("Report a problem with this scan")</td><td data-label="Why">So we can find and fix what went wrong</td><td data-label="Where it is kept">Supabase, linked to your account: the kind of problem, your note, the text that was read from the photo and the ingredient names found. The photo is not part of the report. Visible to you and to us.</td></tr>
+<tr><td data-label="Data">Location (if you allow it)</td><td data-label="Why">To note where a scan was made, shown in your History</td><td data-label="Where it is kept">In that scan's History entry, which is kept in your account so a new phone shows the same History. You can refuse the permission; the app works the same.</td></tr>
 </table></div>
 
 <h2>Who else is involved</h2>
