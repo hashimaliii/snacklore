@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#12392A">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>A result shared from Snack Lore</title>
+<style>
+  :root {
+    --bg:#F3F5F7; --card:#FFFFFF; --inset:#F7F9FA; --ink:#1B2733; --sub:#5B6B79; --line:#DDE3E8; --primary:#1B6B4A; --warnbg:#FFF4CC; --warnline:#E8D48A; --warntext:#6B4E00;
+    --flagged:#C62828; --future:#B35309; --advisory:#8F6400; --ok:#217A4A; --unverified:#5B6B79; --group:#5A57B0; --plain:#8A97A3;
+    --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
+    --gutter:max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0F1417; --card:#1A2127; --inset:#141A1F; --ink:#E8EDF1; --sub:#A3B1BD; --line:#2C363E; --primary:#4CC38A; --warnbg:#2E2610; --warnline:#5A4A1A; --warntext:#F0D78A;
+            --flagged:#EF6C6C; --future:#F08A3C; --advisory:#E0A526; --ok:#4CC38A; --unverified:#8FA0AE; --group:#9C99E8; --plain:#7C8A96;
+            --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35); }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  @media (min-width: 90rem) { html { font-size:112.5%; } }
+  @media (min-width: 120rem) { html { font-size:131%; } }
+  body { margin:0; min-height:100vh; min-height:100dvh; background:var(--bg); color:var(--ink); font:1rem/1.55 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
+  a { color:var(--primary); }
+  a:focus-visible, summary:focus-visible { outline:3px solid var(--primary); outline-offset:3px; border-radius:6px; }
+  .wrap { width:100%; max-width:clamp(34rem, 60vw, 52rem); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); }
+  header.bar { background:var(--card); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top); }
+  header.bar .wrap { display:flex; align-items:center; gap:.7rem; min-height:3.6rem; }
+  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; min-height:2.75rem; }
+  .brand svg { width:2rem; height:2rem; flex:none; }
+  header.bar nav { margin-left:auto; }
+  header.bar nav a { text-decoration:none; font-weight:500; display:inline-flex; align-items:center; min-height:2.75rem; padding:0 .6rem; border-radius:10px; }
+  main { padding-top:1.4rem; padding-bottom:2rem; }
+  h1 { font-size:clamp(1.4rem, 1.1rem + 1.4vw, 1.9rem); line-height:1.2; margin:.2rem 0 .3rem; letter-spacing:-.01em; }
+  .meta { color:var(--sub); font-size:.92rem; margin:0 0 1rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1rem 1.1rem; box-shadow:var(--shadow); margin:0 0 .9rem; }
+  .card h2 { font-size:1.05rem; margin:0 0 .3rem; }
+  .headline { font-size:clamp(1.3rem, 1.1rem + 1vw, 1.7rem); font-weight:700; line-height:1.2; margin:0 0 .3rem; }
+  .sub { color:var(--sub); font-size:.92rem; margin:0; }
+  .notice { background:var(--warnbg); border:1px solid var(--warnline); color:var(--warntext); border-radius:14px; padding:.8rem 1rem; margin:0 0 .9rem; }
+  .notice b { display:block; }
+  .group { margin:1.2rem 0 .4rem; font-size:1rem; font-weight:700; }
+  .list { background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; margin:0 0 .9rem; }
+  details { border-bottom:1px solid var(--line); }
+  details:last-child { border-bottom:0; }
+  summary { list-style:none; cursor:pointer; display:flex; gap:.7rem; align-items:flex-start; padding:.75rem 1rem; min-height:3rem; }
+  summary::-webkit-details-marker { display:none; }
+  summary svg.state { width:1.5rem; height:1.5rem; flex:none; margin-top:.1rem; }
+  summary .t { flex:1; min-width:0; }
+  summary .nm { font-weight:600; display:block; }
+  summary .st { font-weight:700; font-size:.92rem; }
+  summary .sh { color:var(--sub); font-size:.92rem; display:block; }
+  summary .chev { width:1.2rem; height:1.2rem; flex:none; margin-top:.2rem; color:var(--sub); transition:transform .15s; }
+  details[open] summary .chev { transform:rotate(180deg); }
+  .more { padding:0 1rem .9rem 3.2rem; color:var(--ink); font-size:.95rem; }
+  .more p { margin:.35rem 0; }
+  .more .pl { color:var(--sub); font-size:.92rem; }
+  .more b { font-weight:700; }
+  .ctas { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.8rem; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; padding:0 1.1rem; border-radius:14px; background:var(--primary); color:#fff; font-weight:700; text-decoration:none; }
+  @media (prefers-color-scheme: dark) { .btn { color:#0F1417; } }
+  footer { border-top:1px solid var(--line); background:var(--card); padding:1.2rem 0 calc(1.6rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; }
+  footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
+  .fine { color:var(--sub); font-size:.85rem; margin:.4rem 0 1rem; }
+  @media (prefers-reduced-motion: reduce) { summary .chev { transition:none; } }
+  @media print { header.bar, footer, .ctas { display:none; } body { background:#fff; color:#000; } .card, .list { box-shadow:none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-flagged" viewBox="0 0 24 24"><path d="M12 3 2 21h20z" fill="currentColor"/><path d="M12 10v5M12 18.2v.01" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-future" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-advisory" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7.4v.01" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-limited" viewBox="0 0 24 24"><path d="M3 7h10M17 7h4M3 17h4M11 17h10M13 4v6M7 14v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8 12.5 3 3 5-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-unverified" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8M12 17.2v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-group" viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h9.8a1.5 1.5 0 0 1 1.1.5l3.6 4.2a1.5 1.5 0 0 1 0 2l-3.6 4.2a1.5 1.5 0 0 1-1.1.5H5.5A1.5 1.5 0 0 1 4 16.9z" fill="currentColor"/></symbol>
+    <symbol id="i-plain" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Snack Lore home">
+      <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/></svg>
+      Snack Lore
+    </a>
+    <nav><a href="index.html">Home</a></nav>
+  </div>
+</header>
+<main class="wrap" id="app" aria-live="polite">
+  <p class="meta">Opening the shared result…</p>
+</main>
+<footer>
+  <div class="wrap"><a href="privacy.html">Privacy policy</a><a href="index.html">What is Snack Lore?</a></div>
+</footer>
+<script>
+(function () {
+  "use strict";
+  var SUPABASE_URL = "https://cdoafqaowbjfonigpikf.supabase.co";
+  var PUBLISHABLE_KEY = "sb_publishable_aW_5QL7O47XrWjWIT3wVlg_dz1wGOyu";      // public by design: the same key is inside the app; it can only call the one function below
+  var PLACE = { US: "the United States", EU: "the European Union", GB: "Great Britain", CA: "Canada" };
+  var ORDER = ["Flagged", "Flagged (future)", "Advisory", "Limited use", "No flags found", "Couldn't verify", "Named as a group", "Plain food"];
+  var ICON = { "Flagged": ["i-flagged", "flagged"], "Flagged (future)": ["i-future", "future"], "Advisory": ["i-advisory", "advisory"], "Limited use": ["i-limited", "advisory"],
+               "No flags found": ["i-none", "ok"], "Couldn't verify": ["i-unverified", "unverified"], "Named as a group": ["i-group", "group"], "Plain food": ["i-plain", "plain"] };
+  var ATTENTION = { "Flagged": 1, "Flagged (future)": 1, "Advisory": 1 };
+  var CHECKED = { "Flagged": 1, "Flagged (future)": 1, "Advisory": 1, "Limited use": 1, "No flags found": 1 };
+  var app = document.getElementById("app");
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }      // text only, never markup
+  function icon(id, color, cls) {
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"), u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    s.setAttribute("class", cls || "state"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true");
+    u.setAttribute("href", "#" + id); s.appendChild(u); if (color) s.style.color = "var(--" + color + ")"; return s;
+  }
+  function place(p) { return PLACE[p] || p; }
+  function say(title, sentence) {
+    app.textContent = "";
+    var card = el("div", "card"); card.appendChild(el("h2", null, title)); card.appendChild(el("p", "sub", sentence)); app.appendChild(card);
+    var ctas = el("div", "ctas"), a = el("a", "btn", "What is Snack Lore?"); a.href = "index.html"; ctas.appendChild(a); app.appendChild(ctas);
+  }
+
+  function render(payload) {
+    var places = payload.places || [], head = places[0] || "US", results = payload.results || [], states = results.map(function (r) { return r.state; });
+    var need = states.filter(function (s) { return ATTENTION[s]; }).length, checked = states.filter(function (s) { return CHECKED[s]; }).length, unverified = states.filter(function (s) { return s === "Couldn't verify"; }).length;
+    var title = !results.length ? "Nothing was read" : need === 1 ? "1 ingredient needs a look in " + place(head) : need > 1 ? need + " ingredients need a look in " + place(head)
+      : checked > 0 ? "No flags found in " + place(head) : unverified > 0 ? "These ingredients couldn't be checked" : "No additives to check in this text";
+    app.textContent = "";
+    app.appendChild(el("h1", null, "A result shared from Snack Lore"));
+    var bits = ["Checked in " + places.map(place).join(" · ")]; if (payload.date) bits.push(payload.date); if (payload.read_with) bits.push(payload.read_with);
+    app.appendChild(el("p", "meta", bits.join(" · ")));
+
+    var head1 = el("div", "card"); head1.appendChild(el("p", "headline", title));
+    var read = results.length + (results.length === 1 ? " ingredient" : " ingredients") + " read"; head1.appendChild(el("p", "sub", unverified ? read + " · " + unverified + " could not be verified" : read));
+    app.appendChild(head1);
+
+    var notice = el("div", "notice"); notice.appendChild(el("b", null, "Please verify all the ingredients and codes against your ingredient list."));
+    notice.appendChild(el("span", null, "This page shows what was read from the label, which can contain mistakes.")); app.appendChild(notice);
+    if (payload.not_food) { var nf = el("div", "notice"); nf.appendChild(el("b", null, payload.not_food)); app.appendChild(nf); }
+
+    var al = payload.allergens || {}, lines = [];
+    (al.in_ingredients || []).forEach(function (e) { lines.push("In the ingredients: " + e.label + (e.because && e.because.length ? " (from " + e.because.join(", ") + ")" : "")); });
+    (al.declared || []).forEach(function (e) { lines.push("Stated by the label, contains: " + e.label); });
+    (al.may_contain || []).forEach(function (e) { lines.push("Stated by the label, may contain: " + e.label); });
+    var ac = el("div", "card"); ac.appendChild(el("h2", null, "Allergens the label names"));
+    if (lines.length) { var ul = el("ul", null); ul.style.margin = ".3rem 0 0"; ul.style.paddingLeft = "1.1rem"; lines.forEach(function (l) { ul.appendChild(el("li", null, l)); }); ac.appendChild(ul); }
+    else ac.appendChild(el("p", "sub", "No allergen is named in this text. That is not a guarantee: check the printed label."));
+    if (al.note) ac.appendChild(el("p", "fine", al.note));
+    app.appendChild(ac);
+
+    ORDER.forEach(function (state) {
+      var rows = results.filter(function (r) { return r.state === state; });
+      if (!rows.length) return;
+      app.appendChild(el("h2", "group", state + " (" + rows.length + ")"));
+      var list = el("div", "list");
+      rows.forEach(function (r) {
+        var d = el("details"), s = el("summary"), t = el("span", "t"), ic = ICON[state] || ICON["Plain food"];
+        s.appendChild(icon(ic[0], ic[1])); t.appendChild(el("span", "nm", r.ingredient));
+        var st = el("span", "st", state); st.style.color = "var(--" + ic[1] + ")"; t.appendChild(st);
+        if (r.short) t.appendChild(el("span", "sh", r.short));
+        var other = Object.keys(r.by || {}).filter(function (k) { return k !== head && r.by[k] !== state; });      // a different result in another place is never left for the opened part only
+        if (other.length) t.appendChild(el("span", "sh", "In other places: " + other.map(function (k) { return place(k) + " " + r.by[k]; }).join(" · ")));
+        s.appendChild(t); s.appendChild(icon("i-chev", null, "chev")); d.appendChild(s);
+        var more = el("div", "more"), ex = r.explain;
+        if (ex) {
+          if (ex.what) more.appendChild(el("p", null, ex.what));
+          (ex.places || []).forEach(function (p) { var para = el("p"); para.appendChild(el("b", null, (p.name || place(p.place)) + ": ")); para.appendChild(document.createTextNode(p.text || "")); more.appendChild(para); });
+          if (ex.means) more.appendChild(el("p", "pl", ex.means));
+        }
+        var by = r.by || {}, keys = Object.keys(by);
+        if (keys.length > 1) more.appendChild(el("p", "pl", keys.map(function (k) { return place(k) + ": " + by[k]; }).join(" · ")));
+        d.appendChild(more); list.appendChild(d);
+      });
+      app.appendChild(list);
+    });
+
+    app.appendChild(el("p", "fine", payload.notice || ""));
+    var ctas = el("div", "ctas"), a = el("a", "btn", "Check your own labels with Snack Lore"); a.href = "index.html"; ctas.appendChild(a); app.appendChild(ctas);
+    document.title = title + " - Snack Lore";
+  }
+
+  var token = String(window.__TOKEN__ || location.hash.slice(1) || "");      // the token is after the # so the page's host never receives it (a test sets window.__TOKEN__)
+  if (!/^[A-Za-z0-9_-]{16,64}$/.test(token)) { say("This link is not complete", "Ask the person who shared it to send the link again."); return; }
+  fetch(SUPABASE_URL + "/rest/v1/rpc/get_shared_result", { method: "POST", headers: { "apikey": PUBLISHABLE_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ p_token: token }) })
+    .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+    .then(function (row) {
+      if (!row || !row.payload) { say("This result is no longer available", "The person who shared it may have taken the link away. Ask them to share it again."); return; }
+      render(row.payload);
+    })
+    .catch(function () { say("We couldn't load this result", "Check your internet connection and open the link again."); });
+})();
+</script>
+</body>
+</html>
