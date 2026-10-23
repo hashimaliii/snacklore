@@ -148,7 +148,7 @@
     (al.in_ingredients || []).forEach(function (e) { lines.push("In the ingredients: " + e.label + (e.because && e.because.length ? " (from " + e.because.join(", ") + ")" : "")); });
     (al.declared || []).forEach(function (e) { lines.push("Stated by the label, contains: " + e.label); });
     (al.may_contain || []).forEach(function (e) { lines.push("Stated by the label, may contain: " + e.label); });
-    var ac = el("div", "card"); ac.appendChild(el("h2", null, "Allergens the label names"));
+    var ac = el("div", "card"); ac.appendChild(el("h2", null, "Allergens on this label"));
     if (lines.length) { var ul = el("ul", null); ul.style.margin = ".3rem 0 0"; ul.style.paddingLeft = "1.1rem"; lines.forEach(function (l) { ul.appendChild(el("li", null, l)); }); ac.appendChild(ul); }
     else ac.appendChild(el("p", "sub", "No allergen is named in this text. That is not a guarantee: check the printed label."));
     if (al.note) ac.appendChild(el("p", "fine", al.note));
