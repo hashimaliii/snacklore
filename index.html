@@ -115,6 +115,47 @@
   .mbtn.fill { background:var(--primary); color:var(--on-primary); }
   .btn2 { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
   .tag { display:block; font-size:.66rem; color:var(--sub); text-align:center; margin-top:.5rem; }
+
+  /* the bars of the app: one top bar, five places at the bottom with a round Scan in the middle */
+  .bellw { position:relative; display:inline-flex; }
+  .bellw b { position:absolute; top:-.4rem; right:-.45rem; background:var(--primary); color:var(--on-primary); font-size:.55rem; border-radius:999px; min-width:.95rem; height:.95rem; display:grid; place-items:center; padding:0 .15rem; }
+  .appbar .avatar { margin-left:0; }
+  .tabs { display:grid; grid-template-columns:repeat(5, 1fr); align-items:end; background:var(--card); border-top:1px solid var(--line); padding:.3rem .15rem .4rem; }
+  .tabs span { display:flex; flex-direction:column; align-items:center; gap:.1rem; font-size:.6rem; color:var(--sub); }
+  .tabs svg { width:1.2rem; height:1.2rem; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .tabs .on { color:var(--primary); font-weight:700; }
+  .tabs .go { margin-top:-.9rem; color:var(--primary); font-weight:700; }
+  .tabs .go i { width:2.4rem; height:2.4rem; border-radius:50%; background:var(--primary); display:grid; place-items:center; box-shadow:var(--shadow); }
+  .tabs .go i svg { stroke:var(--on-primary); width:1.25rem; height:1.25rem; }
+  /* a scan's popup over its result */
+  .stage { position:relative; }
+  .stage .dimmer { position:absolute; inset:0; background:rgba(8,14,18,.5); }
+  .popup { position:absolute; left:.55rem; right:.55rem; top:7%; background:var(--card); border-radius:18px; padding:.7rem .8rem .8rem; box-shadow:0 12px 36px rgba(0,0,0,.35); }
+  .popup .back { color:var(--primary); font-weight:700; font-size:.78rem; margin-bottom:.35rem; }
+  .popup .big { font-size:1rem; }
+  .popup .row { box-shadow:none; background:var(--inset); }
+  .popup .two { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin-top:.7rem; }
+  /* Notifications: a flat feed like the ones in other apps */
+  .chipsrow { display:flex; flex-wrap:wrap; gap:.4rem; margin:.1rem 0 .5rem; }
+  .fchip { border-radius:999px; padding:.25rem .75rem; font-weight:700; font-size:.78rem; background:var(--card); color:var(--primary); box-shadow:var(--shadow); }
+  .fchip.on { background:var(--primary); color:var(--on-primary); }
+  .fhead { font-weight:700; margin:.55rem .2rem .2rem; }
+  .nrow { display:flex; gap:.6rem; padding:.6rem .7rem; border-bottom:1px solid var(--line); }
+  .nrow.unread { background:var(--card); }
+  .nrow .ic { flex:none; width:2.2rem; height:2.2rem; border-radius:50%; background:var(--card); border:1px solid var(--line); display:grid; place-items:center; }
+  .nrow .ic svg { width:1.1rem; height:1.1rem; fill:none; stroke:var(--primary); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .nrow .tx { flex:1; min-width:0; }
+  .nrow .tt { font-weight:400; }
+  .nrow.unread .tt { font-weight:700; }
+  .nrow .ln { color:var(--sub); font-size:.78rem; }
+  .nrow .tm { color:var(--sub); font-size:.7rem; margin-top:.15rem; }
+  .nrow .dot { flex:none; width:.55rem; height:.55rem; border-radius:50%; background:var(--primary); margin-top:.4rem; }
+  .nrow .pill { display:inline-block; margin-top:.35rem; }
+  .yrow { background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:.6rem .75rem; margin-bottom:.5rem; }
+  .yrow b { display:block; }
+  .yrow span { color:var(--sub); font-size:.78rem; }
+  .ycard { display:flex; align-items:center; gap:.7rem; background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:.7rem .75rem; margin-bottom:.55rem; }
+  .ycard .avatar { width:2.4rem; height:2.4rem; font-size:1rem; }
   figure { margin:0; }
   figcaption { text-align:center; margin-top:.9rem; color:var(--sub); font-size:.95rem; }
   figcaption b { display:block; color:var(--ink); font-size:1.05rem; }
@@ -221,31 +262,25 @@
     </div>
 
     <div>
-      <div class="phone" role="img" aria-label="An example result in the app: a headline saying how many ingredients need a look, a reminder to verify the ingredients and codes against the list, the allergens the label names, and the ingredients that need a look with each place's answer">
+      <div class="phone" role="img" aria-label="An example result in the app: a headline saying how many ingredients need a look with a What do the results mean button, the allergens the label names, the ingredients that need a look with each place's answer, the ones that could not be verified, and at the end a reminder to verify the ingredients and codes against the list with an Add a missed ingredient button">
         <div class="screen" aria-hidden="true">
-          <div class="appbar">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
-            <span class="t">Result</span>
-            <span class="sp">
-              <svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg>
-              <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4M8 13l8 4"/></svg>
-              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
-            </span>
-          </div>
+          <div class="appbar"><svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="t">Result</span><span class="sp"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4M8 13l8 4"/></svg><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="avatar">S</span></span></div>
           <div class="body">
             <div class="mcard">
               <div class="big">2 ingredients need a look in the European Union</div>
               <div class="count">27 ingredients read &middot; 5 could not be verified</div>
               <div class="count">Checked in European Union &middot; United States &middot; Great Britain &middot; Canada</div>
+              <div style="margin-top:.5rem"><span class="pill">What do the results mean?</span></div>
             </div>
-            <div class="mcard"><div class="line"><b>Allergens on this label</b></div><div class="count">In the ingredients: Milk, Soybeans &middot; Stated by the label: contains milk, soy</div></div>
             <div class="head">Needs a look (2) <span>&#9652;</span></div>
             <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Calcium phosphate</div><div class="st" style="color:var(--advisory)">Advisory</div><div class="pl">Under review in the European Union. This is not a ban.</div><div class="pl">United States, Great Britain: No flags found</div></div></div>
             <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Dipotassium phosphate</div><div class="st" style="color:var(--advisory)">Advisory</div><div class="pl">Under review in the European Union. This is not a ban.</div></div></div>
+            <div class="mcard"><div class="line"><b>Allergens on this label</b></div><div class="count">In the ingredients: Milk, Soybeans &middot; Stated by the label: contains milk, soy</div></div>
             <div class="head">Couldn't verify (5) <span>&#9662;</span></div>
-            <div class="verify"><b>Please verify all the ingredients and codes against your ingredient list.</b> If anything does not match, correct it with Edit text.</div>
+            <div class="verify"><b>Please verify all the ingredients and codes against your ingredient list.</b><span class="pill" style="display:inline-block;margin-top:.4rem">Add a missed ingredient</span></div>
             <span class="tag">Illustration of a result screen</span>
           </div>
+          <div class="tabs"><span class=""><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
         </div>
       </div>
     </div>
@@ -253,7 +288,7 @@
 
   <section class="block" id="how">
     <h2>From photo to answer in three steps</h2>
-    <p class="sub">The text is read from your photo on your phone or, with the Online reader, by our reading service; you choose on the home screen. The answers come from a database of regulatory facts that the app keeps up to date, never from a guess.</p>
+    <p class="sub">The text is read from your photo on your phone or, with the Online reader, by our reading service; you choose with Change on the home screen. The answers come from a database of regulatory facts that the app keeps up to date, never from a guess.</p>
     <div class="grid3">
       <div class="card"><div class="num">1</div><h3>Photograph the list</h3><p>Scan the label, choose a photo, or type the ingredients. You can correct the text that was read before it is checked.</p></div>
       <div class="card"><div class="num">2</div><h3>Every ingredient is looked up</h3><p>Names, E numbers and spelling variants are matched to official records for each place you chose. An ingredient that appears twice is checked once.</p></div>
@@ -263,50 +298,104 @@
 
   <section class="block" id="screens">
     <h2>The screens you will use</h2>
-    <p class="sub">Start from Home, read the answer on the result screen, and find every scan again in History. Each screen is drawn here with the app's own wording.</p>
+    <p class="sub">Start from Home, read the answer in the popup or on the result screen, and find every scan again in History. The bar at the bottom takes you between Home, History, Scan, People and You; the bell at the top is Notifications. Each screen is drawn here with the app's own wording.</p>
     <div class="shots">
       <figure>
-        <div class="phone" role="img" aria-label="The Home screen: a greeting, which places a scan will check with a Change button, the recent scans, and three buttons to scan a label, choose a photo or type the ingredients">
+        <div class="phone" role="img" aria-label="The Home screen: a greeting, which places a scan will check with a Change button, the recent scans, three buttons to scan a label, choose a photo or type the ingredients, and the bar at the bottom with Home, History, Scan, People and You">
           <div class="screen" aria-hidden="true">
-            <div class="appbar"><svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="t">Snack Lore</span><span class="avatar">S</span></div>
+            <div class="appbar"><svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="t">Snack Lore</span><span class="sp"><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="avatar">S</span></span></div>
             <div class="body">
               <div class="hi">Hi, Sam</div>
               <div class="hint">Take a photo of an ingredient list.</div>
-              <div class="mcard"><div class="line"><div><b>Checking United States, Great Britain, Canada, European Union</b><div class="count">Photo reader: Online &middot; Official sources, up to 16 Oct 2026</div></div><span class="pill">Change</span></div></div>
+              <div class="mcard"><div class="line"><div><b>Checking United States, Great Britain, Canada, European Union</b><div class="count">Photo reader: Online &middot; Official sources, up to 22 Oct 2026</div></div><span class="pill">Change</span></div></div>
               <div class="head">Recent scans <span class="pill">See all</span></div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">22 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">22 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
               <div class="btns"><div class="mbtn fill">Scan a label</div><div class="btn2"><div class="mbtn">Choose a photo</div><div class="mbtn">Type or paste</div></div></div>
             </div>
+            <div class="tabs"><span class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
           </div>
         </div>
         <figcaption><b>Home</b>What a scan checks, your newest scans, one big button.</figcaption>
       </figure>
       <figure>
+        <div class="phone" role="img" aria-label="The popup that follows a finished scan: the headline sentence, how many ingredients were read, the ingredients that need a look, the allergens the label names, the reminder to verify, and two buttons, See details and Done, with a back arrow to History">
+          <div class="screen stage" aria-hidden="true">
+            <div class="appbar"><svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="t">Result</span><span class="sp"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4M8 13l8 4"/></svg><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="avatar">S</span></span></div>
+            <div class="body" style="min-height:25rem"></div>
+            <div class="tabs"><span class=""><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
+            <div class="dimmer"></div>
+            <div class="popup">
+              <div class="back">&#8249; History</div>
+              <div class="big">2 ingredients need a look in the European Union</div>
+              <div class="count">27 ingredients read &middot; 5 could not be verified</div>
+              <div class="head" style="margin-left:0">Needs a look (2)</div>
+              <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Calcium phosphate</div><div class="pl">Advisory in the European Union. Under review. This is not a ban.</div></div></div>
+              <div class="row"><b class="edge" style="background:var(--advisory)"></b><div class="in"><div class="nm">Dipotassium phosphate</div><div class="pl">Advisory in the European Union. Under review. This is not a ban.</div></div></div>
+              <div class="count">Allergens on this label: Milk, Soybeans</div>
+              <div class="count">Please verify all the ingredients and codes against your ingredient list.</div>
+              <div class="two"><div class="mbtn fill">See details</div><div class="mbtn">Done</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>When a scan is ready</b>A short popup with the answer. See details opens the whole result; Done goes Home.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone" role="img" aria-label="The Notifications screen: filters All, Unread and Read, a Mark all as read button, then the entries under New and Earlier, each with an icon, a title, a line, the time and a dot while unread">
+          <div class="screen" aria-hidden="true">
+            <div class="appbar"><svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="t">Notifications</span><span class="sp"><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg>1</span><span class="avatar">S</span></span></div>
+            <div class="body" style="padding-left:0;padding-right:0">
+              <div class="chipsrow" style="padding:0 .7rem"><span class="fchip on">All</span><span class="fchip">Unread (1)</span><span class="fchip">Read (2)</span></div>
+              <div style="padding:0 .7rem"><span class="pill">Mark all as read</span></div>
+              <div class="fhead" style="padding:0 .7rem">New</div>
+              <div class="nrow unread"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span><div class="tx"><div class="tt">Your scan is ready</div><div class="ln">2 ingredients need a look in the European Union</div><div class="tm">Just now</div></div><span class="dot"></span></div>
+              <div class="fhead" style="padding:0 .7rem">Earlier</div>
+              <div class="nrow"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><div class="tx"><div class="tt">Ingredient data updated</div><div class="ln">The ingredient data was updated. Official sources, up to 22 Oct 2026.</div><div class="tm">Yesterday</div></div></div>
+              <div class="nrow"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span><div class="tx"><div class="tt">A saved scan changed</div><div class="ln">Titanium dioxide in the European Union: was No flags found, now Flagged</div><div class="tm">3 days ago</div><span class="pill">Check again</span></div></div>
+            </div>
+            <div class="tabs"><span class=""><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
+          </div>
+        </div>
+        <figcaption><b>Notifications</b>Finished scans, new ingredient data and changed saved scans, with a count on the bell.</figcaption>
+      </figure>
+      <figure>
         <div class="phone" role="img" aria-label="The History screen: a search box, Favourites and Changed filters, a line saying how many scans are saved and that holding a scan selects it, and the saved scans">
           <div class="screen" aria-hidden="true">
-            <div class="appbar">
-              <svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
-              <span class="t">History</span>
-              <span class="sp"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></span>
-            </div>
+            <div class="appbar"><svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="t">History</span><span class="sp"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="avatar">S</span></span></div>
             <div class="body">
               <div class="search">Search your scans</div>
               <div style="display:flex;gap:.45rem;margin-bottom:.5rem"><span class="pill">Favourites</span><span class="pill">Changed</span></div>
               <div class="hint">17 saved scans, newest first. Hold a scan to select it.</div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:22</div><div class="n">4 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
-              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">16 Oct 2026, 12:12</div><div class="n">13 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">22 Oct 2026, 13:37</div><div class="n look">2 need a look &middot; 27 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">22 Oct 2026, 12:57</div><div class="n">25 ingredients</div></div><svg class="on" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
+              <div class="scan"><span class="thumb"></span><div class="tx"><div class="d">22 Oct 2026, 12:22</div><div class="n">4 ingredients</div></div><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9-4.3-4.1 5.9-.8z"/></svg></div>
             </div>
+            <div class="tabs"><span class=""><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
           </div>
         </div>
         <figcaption><b>History</b>Search, star favourites, hold a scan to select and delete several.</figcaption>
       </figure>
+      <figure>
+        <div class="phone" role="img" aria-label="The You screen: the person's name and email, then Profile, My allergens, Settings, How Snack Lore works and About">
+          <div class="screen" aria-hidden="true">
+            <div class="appbar"><span class="t">You</span><span class="sp"><span class="bellw"><svg class="ic" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="avatar">S</span></span></div>
+            <div class="body">
+              <div class="ycard"><span class="avatar">S</span><div><b>Sam</b><div class="count">sam@example.com</div></div></div>
+              <div class="yrow"><b>Profile</b><span>Your name, picture and password.</span></div>
+              <div class="yrow"><b>My allergens</b><span>None picked yet.</span></div>
+              <div class="yrow"><b>Settings</b><span>Theme, time format and notifications.</span></div>
+              <div class="yrow"><b>How Snack Lore works</b><span>A short guide.</span></div>
+              <div class="yrow"><b>About</b><span>This build, the data and the privacy policy.</span></div>
+            </div>
+            <div class="tabs"><span class=""><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</span><span class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>History</span><span class="go"><i><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></i>Scan</span><span class=""><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M15 15c2.3 0 4.3 1.3 5 4"/></svg>People</span><span class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.6 7-5.6s6.3 2 7 5.6"/></svg>You</span></div>
+          </div>
+        </div>
+        <figcaption><b>You</b>Your profile and allergens, settings, the guide, and what this build holds.</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="results">
     <h2>What the results mean</h2>
     <p class="sub">Eight states, each with a fixed meaning. The colour is not a verdict; the words and the shape are.</p>
     <div class="states">
@@ -325,11 +414,19 @@
     <div class="grid2">
       <div class="card">
         <h3>Allergens on this label</h3>
-        <p>The allergens printed on the label, in the ingredients or in a "Contains" or "May contain" line, are named for the US and the EU. Tick yours in your profile and the rows that carry them are marked. It reports what the label says; it never says an allergen is absent.</p>
+        <p>The allergens printed on the label, in the ingredients or in a "Contains" or "May contain" line, are named for the US and the EU. Tick yours in My allergens, or ask for them right after you log in, and the rows that carry them are marked. It reports what the label says; it never says an allergen is absent.</p>
+      </div>
+      <div class="card">
+        <h3>It keeps working when you leave</h3>
+        <p>A scan, a check, a sync or a share carries on when you minimise the app, lock the phone or close the app, and the phone tells you when a scan is ready. If you scan with the Online reader and there is no internet, the first reading is kept and the online one finishes by itself when a connection returns; you get a notification then.</p>
+      </div>
+      <div class="card">
+        <h3>Notifications, in the app and on the phone</h3>
+        <p>The bell counts what you have not seen: a scan that finished while you were away, new ingredient data, and saved scans whose ingredients changed in the sources. Filter by All, Unread and Read, or tap Mark all as read. You can switch the phone notifications off in Settings.</p>
       </div>
       <div class="card">
         <h3>Your History, on every phone</h3>
-        <p>Scans are saved with their photo and place. Sign in with your email or with Google on a new phone and your History, allergens and settings are there. Removing something only takes it out of your view; hold a scan in History to select several. Scans made without a connection are sent when it returns.</p>
+        <p>Scans are saved with their photo and place. Sign in with your email or with Google on a new phone and your History, allergens and settings are there. Removing something only takes it out of your view; hold a scan in History to select several. Scans made without a connection are sent when it returns, also when the app is closed.</p>
       </div>
     </div>
   </section>

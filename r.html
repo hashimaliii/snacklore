@@ -44,6 +44,10 @@
   .notice { background:var(--warnbg); border:1px solid var(--warnline); color:var(--warntext); border-radius:14px; padding:.8rem 1rem; margin:0 0 .9rem; }
   .notice b { display:block; }
   .group { margin:1.2rem 0 .4rem; font-size:1rem; font-weight:700; }
+  .gsub { color:var(--sub); font-size:.9rem; margin:-.2rem 0 .5rem; }
+  details.fold > summary.gh { padding:.2rem 0; min-height:2.75rem; align-items:center; font-weight:700; }
+  details.fold { border-bottom:0; margin:.6rem 0 .2rem; }
+  .linkrow { margin:.6rem 0 .2rem; }
   .list { background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; margin:0 0 .9rem; }
   details { border-bottom:1px solid var(--line); }
   details:last-child { border-bottom:0; }
@@ -140,10 +144,6 @@
     var read = results.length + (results.length === 1 ? " ingredient" : " ingredients") + " read"; head1.appendChild(el("p", "sub", unverified ? read + " · " + unverified + " could not be verified" : read));
     app.appendChild(head1);
 
-    var notice = el("div", "notice"); notice.appendChild(el("b", null, "Please verify all the ingredients and codes against your ingredient list."));
-    notice.appendChild(el("span", null, "This page shows what was read from the label, which can contain mistakes.")); app.appendChild(notice);
-    if (payload.not_food) { var nf = el("div", "notice"); nf.appendChild(el("b", null, payload.not_food)); app.appendChild(nf); }
-
     var al = payload.allergens || {}, lines = [];
     (al.in_ingredients || []).forEach(function (e) { lines.push("In the ingredients: " + e.label + (e.because && e.because.length ? " (from " + e.because.join(", ") + ")" : "")); });
     (al.declared || []).forEach(function (e) { lines.push("Stated by the label, contains: " + e.label); });
@@ -154,31 +154,52 @@
     if (al.note) ac.appendChild(el("p", "fine", al.note));
     app.appendChild(ac);
 
-    ORDER.forEach(function (state) {
-      var rows = results.filter(function (r) { return r.state === state; });
+    // the groups of the app's result: Needs a look, Limited use and Couldn't verify open; the others folded with a count
+    var GROUPS = [
+      { title: "Needs a look", states: ["Flagged", "Flagged (future)", "Advisory"], open: true, plain: false },
+      { title: "Limited use", states: ["Limited use"], open: true, plain: false },
+      { title: "Couldn't verify", states: ["Couldn't verify"], open: true, plain: true },
+      { title: "No flags found", states: ["No flags found"], open: false, plain: false, sub: "Absence of a flag is not a safety finding." },
+      { title: "Named as a group", states: ["Named as a group"], open: false, plain: true, sub: "A class word such as flavours." },
+      { title: "Plain food", states: ["Plain food"], open: false, plain: true }
+    ];
+    GROUPS.forEach(function (g) {
+      var rows = results.filter(function (r) { return g.states.indexOf(r.state) >= 0; });
       if (!rows.length) return;
-      app.appendChild(el("h2", "group", state + " (" + rows.length + ")"));
+      var label = g.title + " (" + rows.length + ")", holder;
+      if (g.open) { app.appendChild(el("h2", "group", label)); holder = app; }
+      else { holder = el("details", "fold"); var gs = el("summary", "gh", label); holder.appendChild(gs); app.appendChild(holder); }
+      if (g.sub) holder.appendChild(el("p", "gsub", g.sub));
       var list = el("div", "list");
       rows.forEach(function (r) {
-        var d = el("details"), s = el("summary"), t = el("span", "t"), ic = ICON[state] || ICON["Plain food"];
+        var state = r.state, d = el("details"), s = el("summary"), t = el("span", "t"), ic = ICON[state] || ICON["Plain food"];
         s.appendChild(icon(ic[0], ic[1])); t.appendChild(el("span", "nm", r.ingredient));
-        var st = el("span", "st", state); st.style.color = "var(--" + ic[1] + ")"; t.appendChild(st);
-        if (r.short) t.appendChild(el("span", "sh", r.short));
+        if (!g.plain) {      // the group's own heading says the state, so only a mixed group repeats it, and a plain row has no description (as in the app)
+          if (g.states.length > 1) { var st = el("span", "st", state); st.style.color = "var(--" + ic[1] + ")"; t.appendChild(st); }
+          if (r.short) t.appendChild(el("span", "sh", r.short));
+        }
         var other = Object.keys(r.by || {}).filter(function (k) { return k !== head && r.by[k] !== state; });      // a different result in another place is never left for the opened part only
-        if (other.length) t.appendChild(el("span", "sh", "In other places: " + other.map(function (k) { return place(k) + " " + r.by[k]; }).join(" · ")));
-        s.appendChild(t); s.appendChild(icon("i-chev", null, "chev")); d.appendChild(s);
-        var more = el("div", "more"), ex = r.explain;
+        if (other.length) t.appendChild(el("span", "sh", "In other places: " + other.map(function (k) { return place(k) + " " + r.by[k]; }).join(" \u00b7 ")));
+        s.appendChild(t);
+        var more = el("div", "more"), ex = g.plain ? null : r.explain;
         if (ex) {
           if (ex.what) more.appendChild(el("p", null, ex.what));
           (ex.places || []).forEach(function (p) { var para = el("p"); para.appendChild(el("b", null, (p.name || place(p.place)) + ": ")); para.appendChild(document.createTextNode(p.text || "")); more.appendChild(para); });
           if (ex.means) more.appendChild(el("p", "pl", ex.means));
         }
         var by = r.by || {}, keys = Object.keys(by);
-        if (keys.length > 1) more.appendChild(el("p", "pl", keys.map(function (k) { return place(k) + ": " + by[k]; }).join(" · ")));
-        d.appendChild(more); list.appendChild(d);
+        if (keys.length > 1) more.appendChild(el("p", "pl", keys.map(function (k) { return place(k) + ": " + by[k]; }).join(" \u00b7 ")));
+        if (more.childNodes.length) { s.appendChild(icon("i-chev", null, "chev")); d.appendChild(s); d.appendChild(more); } else { s.style.cursor = "default"; d.appendChild(s); }
+        list.appendChild(d);
       });
-      app.appendChild(list);
+      holder.appendChild(list);
     });
+
+    // the notices close the result, as in the app
+    var notice = el("div", "notice"); notice.appendChild(el("b", null, "Please verify all the ingredients and codes against your ingredient list."));
+    notice.appendChild(el("span", null, "This page shows what was read from the label, which can contain mistakes.")); app.appendChild(notice);
+    if (payload.not_food) { var nf = el("div", "notice"); nf.appendChild(el("b", null, payload.not_food)); app.appendChild(nf); }
+    var mean = el("p", "linkrow"), ma = el("a", null, "What do the results mean?"); ma.href = "index.html#results"; mean.appendChild(ma); app.appendChild(mean);
 
     app.appendChild(el("p", "fine", payload.notice || ""));
     var ctas = el("div", "ctas"), a = el("a", "btn", "Check your own labels with Snack Lore"); a.href = "index.html"; ctas.appendChild(a); app.appendChild(ctas);
