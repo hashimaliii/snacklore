@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#12392A">
+<title>Delete your Snack Lore account</title>
+<style>
+  :root {
+    --bg:#F3F5F7; --card:#FFFFFF; --inset:#F7F9FA; --ink:#1B2733; --sub:#5B6B79; --line:#DDE3E8; --primary:#1B6B4A; --advisory:#8F6400;
+    --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
+    --gutter:max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0F1417; --card:#1A2127; --inset:#141A1F; --ink:#E8EDF1; --sub:#A3B1BD; --line:#2C363E; --primary:#4CC38A; --advisory:#E0A526;
+            --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35); }
+  }
+  * { box-sizing: border-box; }
+  /* every size is in rem, so the page follows the reader's text size, and the base grows on large screens and televisions */
+  html { scroll-padding-top:4.5rem; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  @media (min-width: 90rem) { html { font-size:112.5%; } }
+  @media (min-width: 120rem) { html { font-size:131%; } }
+  body { margin:0; min-height:100vh; min-height:100dvh; background:var(--bg); color:var(--ink); font:1rem/1.6 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
+  a { color:var(--primary); }
+  a:focus-visible { outline:3px solid var(--primary); outline-offset:3px; border-radius:6px; }
+  svg { max-width:100%; }
+  .wrap { width:100%; max-width:clamp(50rem, 66vw, 72rem); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); }
+  header.bar { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; padding-top:env(safe-area-inset-top); }
+  header.bar .wrap { display:flex; align-items:center; gap:.7rem; min-height:3.6rem; max-width:clamp(68rem, 72vw, 88rem); }
+  .brand { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1.15rem; color:var(--ink); text-decoration:none; min-height:2.75rem; }
+  .brand svg { width:2rem; height:2rem; flex:none; }
+  header.bar nav { margin-left:auto; font-size:.95rem; }
+  header.bar nav a { text-decoration:none; font-weight:500; display:inline-flex; align-items:center; min-height:2.75rem; padding:0 .6rem; border-radius:10px; }
+  header.bar nav a:hover { background:var(--inset); }
+  main.doc { padding-top:1.6rem; padding-bottom:2rem; }
+  h1 { font-size:clamp(1.7rem, 1.2rem + 2vw, 2.4rem); line-height:1.15; margin:.4rem 0 .8rem; letter-spacing:-.01em; }
+  h2 { font-size:clamp(1.15rem, 1.05rem + .5vw, 1.4rem); margin:2rem 0 .6rem; }
+  p, li { color:var(--ink); }
+  ul { padding-left:1.2rem; }
+  li { margin:.3rem 0; }
+  .note { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--advisory); border-radius:14px; padding:.7rem 1rem; box-shadow:var(--shadow); }
+  .tablewrap { border-radius:16px; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; }
+  th, td { padding:.65rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+  th { background:var(--inset); font-size:.85rem; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; }
+  tr:last-child td { border-bottom:0; }
+  td:first-child { font-weight:600; }
+  td { overflow-wrap:break-word; }      /* a word is never cut in the middle of a short column */
+  @media (min-width: 48.0625rem) {      /* column widths belong to the table layout only: in the card layout below, a cell must fill its card */
+    th:nth-child(1), td:nth-child(1) { width:27%; }
+    th:nth-child(2), td:nth-child(2) { width:23%; }
+  }
+  footer { border-top:1px solid var(--line); background:var(--card); padding:1.4rem 0 calc(2rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; max-width:clamp(50rem, 66vw, 72rem); }
+  footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
+
+  /* on a phone or a narrow window each row of the table becomes a card, read top to bottom, with the column name above each part: nothing scrolls sideways */
+  @media (max-width: 48rem) {
+    .tablewrap { overflow:visible; background:none; border:0; box-shadow:none; border-radius:0; }
+    table, tbody, tr, td { display:block; width:100%; }
+    tr.hd, tr.hd th { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }      /* the header row stays for screen readers */
+    tr { background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); margin:0 0 .8rem; padding:.3rem 0; }
+    td { border-bottom:0; padding:.45rem .9rem; }
+    td::before { content:attr(data-label); display:block; font-size:.74rem; font-weight:700; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.1rem; }
+    td:first-child { font-size:1.02rem; }
+  }
+  @media (max-width: 30rem) {
+    :root { --gutter:max(1rem, env(safe-area-inset-left), env(safe-area-inset-right)); }
+    header.bar nav a { padding:0 .45rem; }
+    .brand { font-size:1.05rem; }
+  }
+  @media (max-height: 30rem) and (orientation: landscape) {      /* a phone on its side: the bar must not eat the screen */
+    header.bar { position:static; }
+    html { scroll-padding-top:1rem; }
+  }
+  @media print {
+    header.bar, footer nav { display:none; }
+    body { background:#fff; color:#000; }
+    .tablewrap, tr, .note { box-shadow:none; }
+    tr { break-inside:avoid; }
+    a { color:#000; text-decoration:underline; }
+  }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="Snack Lore home">
+      <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#12392A"/><path d="M84.45,44.27A33,33 0 1 1 66.73,26.55A14,14 0 0 0 84.45,44.27Z" fill="#B9F54F"/><path d="M50,49L72,49M50,61L76,61M50,73L63,73" fill="none" stroke="#12392A" stroke-width="5" stroke-linecap="round"/><path d="M33.5,49.5L38,54L44.5,44.5" fill="none" stroke="#12392A" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Snack Lore
+    </a>
+    <nav><a href="./">Home</a></nav>
+  </div>
+</header>
+<main class="wrap doc">
+<h1>Delete your Snack Lore account</h1>
+<p>You can ask us to delete your Snack Lore account and the personal data linked to it. There is no button in the app for this: you ask by email, and we do it.</p>
+
+<h2>How to ask</h2>
+<ol>
+<li>Send an email to <a href="mailto:snacklore.app@gmail.com?subject=Delete%20my%20Snack%20Lore%20account">snacklore.app@gmail.com</a> with the subject <strong>Delete my Snack Lore account</strong>. Send it from the email address you signed up with. If you use "Continue with Google", send it from your Google account's address.</li>
+<li>We reply to that address to confirm it is you.</li>
+<li>We delete the account and its data within 30 days of your confirmation, and tell you when it is done.</li>
+</ol>
+
+<h2>What is deleted</h2>
+<ul>
+<li>Your account: your email address and password, and your profile (name, phone number, date of birth, country, gender and picture, whichever you gave).</li>
+<li>Your allergens and settings.</li>
+<li>Your saved scans: the text, the results, the photos, the places and the names you gave them, including the ones you removed from History and the ones older than the newest 100.</li>
+<li>Your activity log, the reports you sent, the shared result links you made (they stop working) and the corrections you made.</li>
+<li>Your place on any household list. A list you started that still has other members stays for them; its people are theirs.</li>
+</ul>
+
+<h2>What may remain</h2>
+<ul>
+<li>Copies in our database backups, until those backups expire.</li>
+<li>Anything the law requires us to keep.</li>
+<li>What other people on a household list saw or noted while you were on it.</li>
+</ul>
+
+<h2>In the app</h2>
+<p>Removing a scan, deleting all history or removing a picture in the app only takes it out of your view. Asking here is what removes it from our records. See the <a href="privacy.html">privacy policy</a> for everything we keep and why.</p>
+<p class="note">Questions: <a href="mailto:snacklore.app@gmail.com">snacklore.app@gmail.com</a></p>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Snack Lore</span>
+    <a href="./">Home</a>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="mailto:snacklore.app@gmail.com">snacklore.app@gmail.com</a>
+  </div>
+</footer>
+</body>
+</html>
