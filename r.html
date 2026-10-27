@@ -114,6 +114,12 @@
                "No flags found": ["i-none", "ok"], "Couldn't verify": ["i-unverified", "unverified"], "Named as a group": ["i-group", "group"], "Plain food": ["i-plain", "plain"] };
   var ATTENTION = { "Flagged": 1, "Flagged (future)": 1, "Advisory": 1 };
   var CHECKED = { "Flagged": 1, "Flagged (future)": 1, "Advisory": 1, "Limited use": 1, "No flags found": 1 };
+  var WORDS = { "Flagged": "Warning", "Flagged (future)": "Not allowed from a set date", "Advisory": "Caution", "No flags found": "No warnings found" };      // what the app says for four of the eight states (D-233); the shared answer keeps the engine's names
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  function word(state, date) {
+    var m = state === "Flagged (future)" && date ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(date) : null;
+    return m && +m[2] >= 1 && +m[2] <= 12 ? "Not allowed from " + (+m[3]) + " " + MONTHS[+m[2] - 1] + " " + m[1] : (WORDS[state] || state);
+  }
   var app = document.getElementById("app");
 
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }      // text only, never markup
@@ -129,11 +135,28 @@
     var ctas = el("div", "ctas"), a = el("a", "btn", "What is Snack Lore?"); a.href = "index.html"; ctas.appendChild(a); app.appendChild(ctas);
   }
 
+  // the headline names the most serious state, as the app does (D-236)
+  function headline(states, need, where, results) {
+    if (!need) return null;
+    var warn = states.filter(function (s) { return s === "Flagged"; }).length, review = states.filter(function (s) { return s === "Advisory"; }).length, soon = states.filter(function (s) { return s === "Flagged (future)"; }).length;
+    var in_ = where, one = need === 1;
+    if (warn === need) return one ? "1 ingredient has a warning" + in_ : need + " ingredients have warnings" + in_;
+    if (review === need) return one ? "1 ingredient is under review" + in_ : need + " ingredients are under review" + in_;
+    if (soon === need) {
+      var days = [];
+      results.forEach(function (r) { if (r.state === "Flagged (future)") { var w = word(r.state, (r.dates || {})[Object.keys(r.by || {}).filter(function (k) { return r.by[k] === r.state; })[0]]); if (days.indexOf(w) < 0) days.push(w); } });
+      var from = days.length === 1 && days[0].indexOf("from a set date") < 0 ? days[0].replace("Not allowed ", "") : one ? "from a set date" : "from set dates";
+      return (one ? "1 ingredient will not be allowed" : need + " ingredients will not be allowed") + in_ + " " + from;
+    }
+    return need + " ingredients have warnings or cautions" + in_;
+  }
+
   function render(payload) {
     var places = payload.places || [], head = places[0] || "US", results = payload.results || [], states = results.map(function (r) { return r.state; });
     var need = states.filter(function (s) { return ATTENTION[s]; }).length, checked = states.filter(function (s) { return CHECKED[s]; }).length, unverified = states.filter(function (s) { return s === "Couldn't verify"; }).length;
-    var title = !results.length ? "Nothing was read" : need === 1 ? "1 ingredient needs a look in " + place(head) : need > 1 ? need + " ingredients need a look in " + place(head)
-      : checked > 0 ? "No flags found in " + place(head) : unverified > 0 ? "These ingredients couldn't be checked" : "No additives to check in this text";
+    var perPlace = places.filter(function (p) { return results.some(function (r) { return ATTENTION[(r.by || {})[p]]; }); }), whereText = perPlace.length === 1 ? " in " + place(perPlace[0]) : "";      // one place is named when only one has something, as in the app
+    var title = !results.length ? "Nothing was read" : need > 0 ? headline(states, need, whereText, results)
+      : checked > 0 ? "No warnings found in " + place(head) : unverified > 0 ? "These ingredients couldn't be checked" : "No additives to check in this text";
     app.textContent = "";
     app.appendChild(el("h1", null, "A result shared from Snack Lore"));
     var bits = ["Checked in " + places.map(place).join(" · ")]; if (payload.date) bits.push(payload.date); if (payload.read_with) bits.push(payload.read_with);
@@ -153,12 +176,12 @@
     if (al.note) ac.appendChild(el("p", "fine", al.note));
     app.appendChild(ac);
 
-    // the groups of the app's result: Needs a look, Limited use and Couldn't verify open; the others folded with a count
+    // the groups of the app's result: Warnings and cautions, Limited use and Couldn't verify open; the others folded with a count
     var GROUPS = [
-      { title: "Needs a look", states: ["Flagged", "Flagged (future)", "Advisory"], open: true, plain: false },
+      { title: "Warnings and cautions", states: ["Flagged", "Flagged (future)", "Advisory"], open: true, plain: false },
       { title: "Limited use", states: ["Limited use"], open: true, plain: false },
       { title: "Couldn't verify", states: ["Couldn't verify"], open: true, plain: true },
-      { title: "No flags found", states: ["No flags found"], open: false, plain: false, sub: "Absence of a flag is not a safety finding." },
+      { title: "No warnings found", states: ["No flags found"], open: false, plain: false, sub: "Absence of a warning is not a safety finding." },
       { title: "Named as a group", states: ["Named as a group"], open: false, plain: true, sub: "A class word such as flavours." },
       { title: "Plain food", states: ["Plain food"], open: false, plain: true }
     ];
@@ -174,11 +197,11 @@
         var state = r.state, d = el("details"), s = el("summary"), t = el("span", "t"), ic = ICON[state] || ICON["Plain food"];
         s.appendChild(icon(ic[0], ic[1])); t.appendChild(el("span", "nm", r.ingredient));
         if (!g.plain) {      // the group's own heading says the state, so only a mixed group repeats it, and a plain row has no description (as in the app)
-          if (g.states.length > 1) { var st = el("span", "st", state); st.style.color = "var(--" + ic[1] + ")"; t.appendChild(st); }
+          if (g.states.length > 1) { var st = el("span", "st", word(state, (r.dates || {})[Object.keys(r.by || {}).filter(function (k) { return r.by[k] === state; })[0] || head])); st.style.color = "var(--" + ic[1] + ")"; t.appendChild(st); }
           if (r.short) t.appendChild(el("span", "sh", r.short));
         }
         var other = Object.keys(r.by || {}).filter(function (k) { return k !== head && r.by[k] !== state; });      // a different result in another place is never left for the opened part only
-        if (other.length) t.appendChild(el("span", "sh", "In other places: " + other.map(function (k) { return place(k) + " " + r.by[k]; }).join(" \u00b7 ")));
+        if (other.length) t.appendChild(el("span", "sh", "In other places: " + other.map(function (k) { return place(k) + " " + word(r.by[k], (r.dates || {})[k]); }).join(" \u00b7 ")));
         s.appendChild(t);
         var more = el("div", "more"), ex = g.plain ? null : r.explain;
         if (ex) {
@@ -187,7 +210,7 @@
           if (ex.means) more.appendChild(el("p", "pl", ex.means));
         }
         var by = r.by || {}, keys = Object.keys(by);
-        if (keys.length > 1) more.appendChild(el("p", "pl", keys.map(function (k) { return place(k) + ": " + by[k]; }).join(" \u00b7 ")));
+        if (keys.length > 1) more.appendChild(el("p", "pl", keys.map(function (k) { return place(k) + ": " + word(by[k], (r.dates || {})[k]); }).join(" \u00b7 ")));
         if (more.childNodes.length) { s.appendChild(icon("i-chev", null, "chev")); d.appendChild(s); d.appendChild(more); } else { s.style.cursor = "default"; d.appendChild(s); }
         list.appendChild(d);
       });
