@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#F3F8F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#F1FAEF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0B1110" media="(prefers-color-scheme: dark)">
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
 <title>A result shared from Snack Lore</title>
 <style>
   :root {
-    --bg:#F3F8F4; --card:#FFFFFF; --inset:#F6FAF7; --ink:#1B2733; --sub:#3F4D58; --line:#CFE0D4; --primary:#006039; --warnbg:#FFF4CC; --warnline:#E8D48A; --warntext:#6B4E00;
+    --bg:#F1FAEF; --card:#FFFFFF; --inset:#F6FAF7; --ink:#0B2622; --sub:#5B6D7E; --line:#B9E6CE; --primary:#0B6847; --warnbg:#FFF4CC; --warnline:#E8D48A; --warntext:#6B4E00;
     --flagged:#AC2222; --future:#904307; --advisory:#765200; --ok:#1B663E; --unverified:#4D5A66; --group:#5250A1; --plain:#8A97A3;
     --shadow:0 1px 2px rgba(20,30,40,.06), 0 6px 18px rgba(20,30,40,.06);
     --gutter:max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
@@ -43,7 +43,7 @@
   .card h2 { font-size:1.05rem; margin:0 0 .3rem; }
   .headline { font-size:clamp(1.3rem, 1.1rem + 1vw, 1.7rem); font-weight:700; line-height:1.2; margin:0 0 .3rem; }
   .sub { color:var(--sub); font-size:.92rem; margin:0; }
-  .notice { background:var(--warnbg); border:1px solid var(--warnline); color:var(--warntext); border-radius:14px; padding:.8rem 1rem; margin:0 0 .9rem; }
+  .notice { background:var(--warnbg); border:1px solid var(--warnline); color:var(--warntext); border-radius:16px; padding:.8rem 1rem; margin:0 0 .9rem; }
   .notice b { display:block; }
   .group { margin:1.2rem 0 .4rem; font-size:1rem; font-weight:700; }
   .gsub { color:var(--sub); font-size:.9rem; margin:-.2rem 0 .5rem; }
@@ -67,8 +67,8 @@
   .more .pl { color:var(--sub); font-size:.92rem; }
   .more b { font-weight:700; }
   .ctas { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.8rem; }
-  .btn { display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; padding:0 1.1rem; border-radius:14px; background:var(--primary); color:#fff; font-weight:700; text-decoration:none; }
-  @media (prefers-color-scheme: dark) { .btn { color:#0F1417; } }
+  .btn { display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; padding:0 1.1rem; border-radius:16px; background:linear-gradient(135deg, #07864D, #005B3B); color:#fff; font-weight:700; text-decoration:none; }
+  @media (prefers-color-scheme: dark) { .btn { background:var(--primary); color:#0F1417; } }
   footer { border-top:1px solid var(--line); background:var(--card); padding:1.2rem 0 calc(1.6rem + env(safe-area-inset-bottom)); color:var(--sub); font-size:.92rem; }
   footer .wrap { display:flex; flex-wrap:wrap; gap:.2rem 1.4rem; }
   footer a { display:inline-flex; align-items:center; min-height:2.75rem; }
